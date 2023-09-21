@@ -1,7 +1,7 @@
 import React from 'react';
 import { ThemeProvider as StyledThemeProvider } from 'react-jss';
 import useDarkMode from '../hooks/useDarkMode';
-import press from '@/lib/press';
+import press from '@/lib';
 import { ThemeModeEnum } from '../constants';
 
 const lightTheme = {

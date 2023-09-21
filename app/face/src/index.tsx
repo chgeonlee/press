@@ -1,12 +1,19 @@
 import { createRoot } from 'react-dom/client';
 import React from 'react';
-import { RouterProvider } from 'react-router-dom';
+import { BrowserRouter, RouterProvider } from 'react-router-dom';
 import router from './router';
+import './styles/index.scss';
+import { ThemeContextProvider } from './contexts/themeContext';
+import { ThemeProvider } from './providers/themeProvider';
 
 const children = (
-    <React.StrictMode>
-        <RouterProvider router={router} />
-    </React.StrictMode>
+    <ThemeContextProvider>
+        <ThemeProvider>
+            <React.StrictMode>
+                <RouterProvider router={router} />
+            </React.StrictMode>
+        </ThemeProvider>
+    </ThemeContextProvider>
 );
 
 const container = document.getElementById('root');

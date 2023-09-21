@@ -1,9 +1,8 @@
 const path = require('path');
-const app = process.env.APP || 'face';
-console.log( path.resolve(__dirname + '../../', 'dist'))
+
 module.exports = {
     entry: {
-        [app]: path.resolve(__dirname, 'src', 'index.tsx'),
+        main: path.resolve(__dirname, 'src', 'index.tsx'),
     },
     output: {
         filename: 'bundle.js',
@@ -33,7 +32,7 @@ module.exports = {
     resolve: {
         extensions: ['.tsx', '.ts', '.js'],
         alias: {
-            '@': path.resolve(__dirname),
+            '@': path.resolve(__dirname, '../../'),
         },
     },
     devServer: {

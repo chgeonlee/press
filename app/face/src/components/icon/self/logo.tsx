@@ -1,6 +1,6 @@
-import press from '../../../../lib'
+import press from '@/lib';
 
-export const Logo = ( { size }) => {
+const SelfLogo = ({ size }) => {
     const rect = (x: number, y: number, u: number = 6) => {
         const c = press.palette.fuchsia;
         const d = press
@@ -62,8 +62,10 @@ export const Logo = ( { size }) => {
             </svg>
         </div>
     );
-};
+}
 
-Logo.defaultProps = {
+SelfLogo.defaultProps = {
     size: 32
 }
+
+export default SelfLogo;
