@@ -1,0 +1,26 @@
+{
+  "name": "face",
+  "version": "1.0.0",
+  "main": "index.tsx",
+  "scripts": {
+    "test": "jest",
+    "dev": "npx webpack serve --mode development"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "react-icons": "^4.11.0",
+    "webpack": "^5.88.2"
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "^6.1.3",
+    "@types/jest": "^29.5.5",
+    "css-loader": "^6.8.1",
+    "react-jss": "^10.10.0",
+    "sass-loader": "^13.3.2",
+    "style-loader": "^3.3.3",
+    "ts-loader": "^9.4.4",
+    "webpack-dev-server": "^4.15.1"
+  },
+  "description": ""
+}
