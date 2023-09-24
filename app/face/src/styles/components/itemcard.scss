@@ -1,0 +1,17 @@
+
+.itemcard {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 12px;
+    .pics {
+        width: 100%;
+        overflow: hidden;
+        border-radius: 8px;
+    }
+    .title {
+        display: flex;
+        justify-content: space-between;
+
+    }
+}

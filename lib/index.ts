@@ -1,6 +1,6 @@
 import Palette from './palette';
 import Path from './path';
-import Util from './util';
+import Device from './device';
 
 class Press {
     private static _instance: Press;
@@ -8,8 +8,8 @@ class Press {
         return this._instance || ( this._instance = new Press() );
     }
 
-    public get util() {
-        return Util.instance;
+    public get device() {
+        return Device.instance;
     }
 
     public get palette() {

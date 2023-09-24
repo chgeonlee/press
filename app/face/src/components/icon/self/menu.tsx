@@ -1,6 +1,9 @@
 import press from '@/lib';
+import useDarkMode from '../../../hooks/useDarkMode';
 
 const SelfMenu = ({ size }) => {
+    
+    const {darkModeStatus} = useDarkMode();
 
     const x = 2;
     const y = 4;
@@ -17,7 +20,7 @@ const SelfMenu = ({ size }) => {
         .close().trail
 
     return <svg width={ size } height={ size }>
-        <path d={d} stroke={ press.palette.black } strokeWidth={b} />
+        <path d={d} stroke={ darkModeStatus ? press.palette.white : press.palette.black } strokeWidth={b} />
     </svg>;
 }
 

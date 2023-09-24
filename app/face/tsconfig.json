@@ -12,7 +12,7 @@
         "esModuleInterop": true,
         "baseUrl": ".",
         "paths": {
-            "@/*": ["./*", "../../lib"]
+            "@/*": [ "./*", "../../lib"]
         }
     },
     "include": ["./src/**/*", "../../lib/**/*" ]

@@ -3,10 +3,10 @@ import press from '../lib';
 describe('press.util', () => {
     
     test('Singleton instance creation', () => {
-        const util1 = press.util;
-        const util2 = press.util;
+        const dev1 = press.device;
+        const dev2 = press.device;
 
-        expect(util1).toBe(util2);
+        expect(dev1).toBe(dev2);
     });
 
     test('Detect MacOS', () => {
@@ -14,7 +14,7 @@ describe('press.util', () => {
             value: 'Mac OS X',
             writable: true,
         });
-        expect(press.util.getOS()).toBe('MacOS');
+        expect(press.device.getOS()).toBe('MacOS');
     });
   
     test('Detect Android', () => {
@@ -22,6 +22,6 @@ describe('press.util', () => {
             value: 'Android',
             writable: true,
         });
-        expect(press.util.getOS()).toBe('Android');
+        expect(press.device.getOS()).toBe('Android');
     });
 });

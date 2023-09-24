@@ -1,6 +1,7 @@
 import press from '@/lib';
 
 const SelfLogo = ({ size }) => {
+    
     const rect = (x: number, y: number, u: number = 6) => {
         const c = press.palette.fuchsia;
         const d = press
@@ -46,7 +47,7 @@ const SelfLogo = ({ size }) => {
         };
     };
     
-    const g = size / 12;
+    const g = size / 8;
     const x = g;
     const y = g;
     const u = (size - 3 * g) / 2;
@@ -65,7 +66,7 @@ const SelfLogo = ({ size }) => {
 }
 
 SelfLogo.defaultProps = {
-    size: 32
+    size: 30
 }
 
 export default SelfLogo;
