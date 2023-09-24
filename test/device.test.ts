@@ -1,6 +1,6 @@
 import press from "../lib";
 
-describe("press.util", () => {
+describe("press.device", () => {
   test("Singleton instance creation", () => {
     const dev1 = press.device;
     const dev2 = press.device;

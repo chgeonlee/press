@@ -6,9 +6,7 @@
   cursor: pointer;
 
   .pics {
-    border-radius: 8px;
     overflow: hidden;
-
     img {
       width: 100%;
       height: 100%;
@@ -18,5 +16,12 @@
   .title {
     display: flex;
     justify-content: space-between;
+  }
+
+  .description {
+    display: -webkit-box;
+    -webkit-line-clamp: 1; /* 두 줄로 제한 */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
   }
 }

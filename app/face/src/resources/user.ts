@@ -34,20 +34,22 @@ export default class UserResource {
   }
 
   public getUserWithName(name: string): IUserProps {
-    const fidx = Object.keys(USERS).findIndex((f) => USERS[f].username.toString() === name);
+    const fidx = Object.keys(USERS).findIndex(
+      (f) => USERS[f].username.toString() === name,
+    );
 
-    if( fidx !== -1 )
-      return USERS[fidx];
+    if (fidx !== -1) return USERS[fidx];
     else {
       throw new Error();
     }
   }
 
   public getUserWithId(id?: string): IUserProps {
-    const fidx = Object.keys(USERS).findIndex((f) => USERS[f].id.toString() === id.toString());
-    
-    if( fidx !== -1 )
-      return USERS[fidx];
+    const fidx = Object.keys(USERS).findIndex(
+      (f) => USERS[f].id.toString() === id.toString(),
+    );
+
+    if (fidx !== -1) return USERS[fidx];
     else {
       throw new Error();
     }
