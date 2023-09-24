@@ -1,16 +1,17 @@
 .iconlabel {
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 12px;
+  margin-top: 12px;
+  
+  .icon {
     display: flex;
-    flex-direction: column;
+    justify-content: center;
     padding-bottom: 12px;
-    margin-top: 12px;
-    .icon {
-        display: flex;
-        justify-content: center;
-        padding-bottom: 12px;
-    }
+  }
 
-    .label {
-        display: flex;
-        justify-content: center;
-    }
+  .label {
+    display: flex;
+    justify-content: center;
+  }
 }

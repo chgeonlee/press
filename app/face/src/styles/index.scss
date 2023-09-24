@@ -1,23 +1,31 @@
-@import '_variables.scss';
+@import "_variables.scss";
 
-@import 'components/itemcard';
-@import 'components/button';
-@import 'components/section';
-@import 'components/header';
-@import 'components/collapse';
-@import 'components/grid';
-@import 'components/iconlabel';
+@import "components/itemcard";
+@import "components/button";
+@import "components/section";
+@import "components/header";
+@import "components/collapse";
+@import "components/grid";
+@import "components/iconlabel";
 
-@import 'routes/home.scss';
+@import "routes/home.scss";
 
 body {
-    padding: 0;
-    margin: 0;
-    overflow: hidden;
+  padding: 0;
+  margin: 0;
+  overflow: hidden;
 }
 
 .root {
-    position: relative;
-    height: 100vh;
-    overflow: scroll;
+  position: relative;
+  height: 100vh;
+  overflow: scroll;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
 }

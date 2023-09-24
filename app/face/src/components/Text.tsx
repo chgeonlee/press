@@ -1,47 +1,46 @@
 import { ReactNode } from "react";
 
 export enum TextAlignEnum {
-    LEFT = 'left',
-    CENTER = 'center',
-    RIGHT = 'right'
+  LEFT = "left",
+  CENTER = "center",
+  RIGHT = "right",
 }
 
 export enum TextSizeEnum {
-    LG = '18px',
-    MD = '14px',
-    SM = '12px'
+  LG = "18px",
+  MD = "14px",
+  SM = "12px",
 }
 
 export enum TextWeightEnum {
-    BOLD = 600,
-    MEDIUM = 300,
-    THIN = 100
+  BOLD = 600,
+  MEDIUM = 300,
+  THIN = 100,
 }
 
 export interface ITextProps {
-    children: ReactNode;
+  children: ReactNode;
 
-    align?: TextAlignEnum;
-    size?: TextSizeEnum;
-    weight?: TextWeightEnum;
+  align?: TextAlignEnum;
+  size?: TextSizeEnum;
+  weight?: TextWeightEnum;
 }
 
-const Text = ( { children, align, size, weight }: ITextProps ) => {
+const Text = ({ children, align, size, weight }: ITextProps) => {
+  const spec = {
+    textAlign: align,
+    fontSize: size,
+    fontWeight: weight,
+    margin: 0,
+  };
 
-    const spec = {
-        textAlign: align,
-        fontSize: size,
-        fontWeight: weight,
-        margin: 0
-    }
-
-    return <p style={{ ...spec }}>{children}</p>;
-}
+  return <p style={{ ...spec }}>{children}</p>;
+};
 
 export default Text;
 
 Text.defaultProps = {
-    align: TextAlignEnum.LEFT,
-    size: TextSizeEnum.MD,
-    weight: TextWeightEnum.MEDIUM
-}
+  align: TextAlignEnum.LEFT,
+  size: TextSizeEnum.MD,
+  weight: TextWeightEnum.MEDIUM,
+};

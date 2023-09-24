@@ -1,11 +1,12 @@
-
 .section {
-    
-    &.mobile {
-        padding: 0px 12px;
-    }
+  width: 100%;
+  max-width: 1440px;
 
-    &.tablet {
-        padding: 0px 36px;
-    }
+  &.mobile {
+    padding: 0px 12px;
+  }
+
+  &.tablet {
+    padding: 0px 36px;
+  }
 }

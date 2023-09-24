@@ -1,14 +1,14 @@
-
 .home {
-    
-}
-
-.tabs {
+  position: relative;
+  padding: 0px 12px;
+  
+  .tabs {
     padding: 12px 0px 0px;
     position: sticky;
     top: 0px;
-}
+  }
 
-.contents {
-    margin: 24px 0px 48px;
+  .contents {
+    margin: 36px 0px 48px;
+  }
 }

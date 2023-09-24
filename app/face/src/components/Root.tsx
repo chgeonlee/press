@@ -5,21 +5,23 @@ import { createUseStyles } from "react-jss";
 import Section from "./Section";
 
 const useStyles = createUseStyles((theme: any) => ({
-    container: {
-        backgroundColor: theme.background,
-        color: theme.text,
-    },
+  container: {
+    backgroundColor: theme.background,
+    color: theme.text,
+  },
 }));
 
 export default function Root() {
-    const classes = useStyles();
-    
-    return <div className={ classNames( classes.container, 'root' )}>
-        <Section>
-            <Header />
-        </Section>
-        <Section>
-            <Outlet />
-        </Section>
+  const classes = useStyles();
+
+  return (
+    <div className={classNames(classes.container, "root")}>
+      <Section>
+        <Header />
+      </Section>
+      <Section>
+        <Outlet />
+      </Section>
     </div>
+  );
 }

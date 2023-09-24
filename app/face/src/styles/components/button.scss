@@ -1,19 +1,19 @@
 .button {
-    cursor: pointer;
+  cursor: pointer;
 
-    &.plain {
-        display: flex;
-        justify-content: center;
-        padding: 6px 24px;
-    }
+  &.plain {
+    display: flex;
+    justify-content: center;
+    padding: 6px 24px;
+  }
 
-    &.icon {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
+  &.icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 
-    &.rounded {
-        border-radius:12px;
-    }
+  &.rounded {
+    border-radius: 12px;
+  }
 }
