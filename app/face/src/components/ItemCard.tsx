@@ -43,7 +43,7 @@ const ItemCard = ({ title, item }: IItemCardProps) => {
             src={
               item.imgset[0]
                 ? item.imgset[0]
-                : "https://a0.muscache.com/im/pictures/miso/Hosting-13903824/original/82d996fb-d7c4-46a8-a713-febd281cd69f.jpeg?im_w=720"
+                : "https://i.pinimg.com/564x/dd/67/fe/dd67feaef7120dc8b7c6a1925bae69e0.jpg"
             }
           />
         </div>
