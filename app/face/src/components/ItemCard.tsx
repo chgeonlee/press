@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import Text, { TextSizeEnum } from "./Text";
+import Text, { TextSizeEnum, TextWeightEnum } from "./Text";
 import { useLayoutEffect, useRef } from "react";
 import press from "@/lib";
 
@@ -48,14 +48,16 @@ const ItemCard = ({ title, item }: IItemCardProps) => {
           />
         </div>
         <div className="title">
-          <Text weight={600}>{item.title}</Text>
+          <Text weight={TextWeightEnum.BOLD}>{item.title}</Text>
           <Text>{item.rating}</Text>
         </div>
         <div className="description">
           <Text size={TextSizeEnum.SM}>{item.description}</Text>
         </div>
         <div className="price">
-          <Text weight={600}>{press.util.convertToKRW(item.price)}</Text>
+          <Text weight={TextWeightEnum.BOLD}>
+            {press.util.convertToKRW(item.price)}
+          </Text>
         </div>
       </div>
     </Link>

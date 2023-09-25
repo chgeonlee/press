@@ -13,7 +13,7 @@ const lightTheme = {
 const darkTheme = {
   background: press.palette.black,
   text: press.palette.white,
-  border: press.palette.grey,
+  border: press.palette.steel,
 };
 
 export const ThemeProvider = ({ children }: { children: React.ReactNode }) => {

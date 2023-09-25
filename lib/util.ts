@@ -7,6 +7,13 @@ export default class Util {
   //prevent using new Constructor();
   private constructor() {}
 
+  immutable(obj: object, method: string, value: any): void {
+    Object.defineProperty(obj, method, {
+      value: value,
+      writable: false,
+    });
+  }
+
   convertToKRW(n: number) {
     if (typeof n !== "number" || isNaN(n)) {
       throw new Error("Invalid input");

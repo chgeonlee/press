@@ -15,4 +15,19 @@ describe("press.util", () => {
     //@ts-ignore
     expect(() => press.util.convertToKRW("string")).toThrow();
   });
+
+  test("Object property should be made immutable", () => {
+    const obj = {};
+    press.util.immutable(obj, "key", "value");
+
+    // Checking that the key was added with the correct value
+    // @ts-ignore
+    expect(obj.key).toBe("value");
+
+    // Checking that the key is immutable
+    expect(() => {
+      // @ts-ignore
+      obj.key = "newValue";
+    }).toThrowError();
+  });
 });

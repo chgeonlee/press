@@ -3,12 +3,12 @@ import { ReactNode } from "react";
 
 export interface IIconButtonProps {
   icon: ReactNode;
-  onClick: () => void;
+  fnClick: () => void;
 }
 
-export const IconButton = ({ icon, onClick }: IIconButtonProps) => {
+export const IconButton = ({ icon, fnClick }: IIconButtonProps) => {
   return (
-    <div className={classNames("button", "icon")} onClick={onClick}>
+    <div className={classNames("button", "icon")} onClick={fnClick}>
       {icon}
     </div>
   );

@@ -1,9 +1,10 @@
 import { ReactNode, useState } from "react";
 import Grid from "./Grid";
-import Text from "./Text";
 import { PlainButton } from "./button/PlainButton";
 import { createUseStyles } from "react-jss";
 import classNames from "classnames";
+import press from "@/lib";
+import { PlaceEnum } from "../../../../lib/style";
 
 export interface ICollapseProps {
   children: ReactNode[];
@@ -12,9 +13,7 @@ export interface ICollapseProps {
 }
 
 const useStyles = createUseStyles((theme: any) => ({
-  container: {
-    borderBottom: `1px solid ${theme.border}`,
-  },
+  container: press.style.spec().edge(1, theme.border, PlaceEnum.BOTTOM),
 }));
 
 export const Collapse = ({ children, columns, rows }: ICollapseProps) => {

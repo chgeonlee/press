@@ -3,6 +3,7 @@ import Path from "./path";
 import Device from "./device";
 import Wire from "./wire";
 import Util from "./util";
+import Style from "./style";
 
 class Press {
   private static _instance: Press;
@@ -24,6 +25,10 @@ class Press {
 
   public get util() {
     return Util.instance;
+  }
+
+  public get style() {
+    return Style.instance;
   }
 
   public path(x: number, y: number) {

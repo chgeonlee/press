@@ -3,12 +3,10 @@ import Header from "./Header";
 import classNames from "classnames";
 import { createUseStyles } from "react-jss";
 import Section from "./Section";
+import press from "@/lib";
 
 const useStyles = createUseStyles((theme: any) => ({
-  container: {
-    backgroundColor: theme.background,
-    color: theme.text,
-  },
+    container: press.style.relative().back(theme.background).color( theme.text )
 }));
 
 export default function Root() {

@@ -5,11 +5,11 @@ import SelfMenu from "./icon/self/menu";
 import useDarkMode from "../hooks/useDarkMode";
 import classNames from "classnames";
 import { IconButton } from "./button/IconButton";
+import press from "@/lib";
+import { PlaceEnum } from "../../../../lib/style";
 
 const useStyles = createUseStyles((theme: any) => ({
-  container: {
-    borderBottom: `1px solid ${theme.border}`,
-  },
+  container: press.style.spec().edge(1, theme.border, PlaceEnum.BOTTOM),
 }));
 const FIXED_ICON_SIZE = 24;
 
@@ -23,17 +23,17 @@ const Header = () => {
       <div className="setting">
         <IconButton
           icon={<FaMoon size={18} />}
-          onClick={() => setDarkModeStatus(!darkModeStatus)}
+          fnClick={() => setDarkModeStatus(!darkModeStatus)}
         />
         <IconButton
           icon={<SelfMenu size={FIXED_ICON_SIZE} />}
-          onClick={() => {
+          fnClick={() => {
             confirm("미구현");
           }}
         />
         <IconButton
           icon={<FaUserCircle size={FIXED_ICON_SIZE} />}
-          onClick={() => {
+          fnClick={() => {
             confirm("미구현");
           }}
         />
