@@ -94,6 +94,10 @@ class Container {
   }
 
   add(category: string, room: IRoomData) {
+    if (!this.pool[category]) {
+        this.pool[category] = [];
+    }
+    
     this.pool[category].push(new Room(room));
   }
 

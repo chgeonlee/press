@@ -40,11 +40,11 @@ module.exports = {
     static: path.join(__dirname, "dist"),
     historyApiFallback: true,
     compress: true,
-    port: 8001,
+    port: 8000,
   },
   plugins: [
     new webpack.DefinePlugin({
-      "process.env.USE_MOCK_DATA": true,
+      "process.env.USE_MOCK_DATA": "true",
     }),
   ],
 };
