@@ -23,6 +23,10 @@ const router = createBrowserRouter([
       },
     ],
   },
+  {
+    path: "/room/:id",
+    element: <Room />,
+  },
 ]);
 
 export default router;

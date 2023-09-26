@@ -12,6 +12,7 @@ export interface IRoomData {
   price: number;
   pricePerUnit: string;
   imgset: string[];
+  categories: string[];
 }
 
 export interface IReviewData {
@@ -25,12 +26,16 @@ export interface IRoomDetailData {
   position: [number, number];
   capacity: number;
 }
+interface ICategoryInfo {
+  rooms: Set<Room>;
+  partial: boolean;
+}
 
 // Class representing a Room.
 // It holds the original data and provides methods to check for modifications.
 class Room {
   original: IRoomData;
-  detail: IRoomDetailData | undefined;
+  _detail: IRoomDetailData | undefined;
 
   constructor(private data: IRoomData) {
     this.original = _.cloneDeep(data);
@@ -41,8 +46,8 @@ class Room {
     return !_.isEqual(this.original, this.data);
   }
 
-  get provisonal(): IRoomData {
-    return this.data;
+  get provisonal(): { meta: IRoomData; detail: IRoomDetailData } {
+    return { meta: this.data, detail: this.detail };
   }
 
   set title(t: string) {
@@ -61,8 +66,16 @@ class Room {
     this.data.price = p;
   }
 
+  get detail() {
+    return this._detail;
+  }
+
+  set detail(d: IRoomDetailData) {
+    this._detail = d;
+  }
+
   // get Detail Room Data
-  fetch(refresh: boolean = false) {
+  fetchDetail(refresh: boolean = false) {
     if (refresh == false && this.detail != undefined) {
       return press.wire.fire(
         GlobalEventEnum.FETCHED_ROOM_DETAIL,
@@ -71,7 +84,7 @@ class Room {
     } else {
       getRoomDetail(this.original.id)
         .then((data) => {
-          this.detail = data;
+          this.detail = data.detail;
           press.wire.fire(
             GlobalEventEnum.FETCHED_ROOM_DETAIL,
             this.original.id,
@@ -87,14 +100,13 @@ class Room {
 // Container class for managing a collection of Room instances.
 class Container {
   pool: Map<string, Room> = new Map();
-  kmap: Map<string, Set<Room>> = new Map();
+  kmap: Map<string, ICategoryInfo> = new Map();
 
-  constructor() {
-    this.add = this.add.bind(this);
-    this.fetch = this.fetch.bind(this);
-  }
-
-  private add(category: string, room: IRoomData) {
+  private add = (
+    category: string,
+    room: IRoomData,
+    partial: boolean = false,
+  ): Room => {
     let inst: Room;
 
     if (this.pool.has(room.id)) {
@@ -104,28 +116,54 @@ class Container {
       this.pool.set(room.id, inst);
     }
 
-    if (!this.kmap.has(category)) {
-      this.kmap.set(category, new Set());
+    const categoryInfo = this.kmap.get(category) || {
+      rooms: new Set<Room>(),
+      partial: partial,
+    };
+
+    if (categoryInfo.partial != partial) {
+      categoryInfo.partial = partial;
     }
 
-    this.kmap.get(category)!.add(inst);
-  }
+    categoryInfo.rooms.add(inst);
+    this.kmap.set(category, categoryInfo);
+
+    return inst;
+  };
 
   // Fetches rooms data. If already fetched (and no force refresh), it triggers an event.
-  fetch(category: string, refresh: boolean = false) {
-    if (refresh === false && this.kmap.has(category)) {
-      return press.wire.fire(GlobalEventEnum.FETCHED_ROOM_RESOURCE, category);
+  fetchRoomsByCategory = (category: string, refresh: boolean = false) => {
+    if (
+      refresh === false &&
+      this.kmap.has(category) &&
+      this.kmap.get(category).partial === false
+    ) {
+      return press.wire.fire(GlobalEventEnum.FETCHED_ROOMS_CATEGORY, category);
     } else {
       getRooms(category)
         .then((data) => {
           data.rooms.forEach((room) => this.add(category, room));
-          press.wire.fire(GlobalEventEnum.FETCHED_ROOM_RESOURCE, category);
+          press.wire.fire(GlobalEventEnum.FETCHED_ROOMS_CATEGORY, category);
         })
         .catch((error) => {
           console.error("Error fetching rooms", error);
         });
     }
-  }
+  };
+
+  fetchRoomByRoomId = (roomId: string, refresh: boolean = false) => {
+    if (refresh == false && this.pool.has(roomId)) {
+      return press.wire.fire(GlobalEventEnum.FETCHED_ROOM_BY_ID, roomId);
+    } else {
+      getRoomDetail(roomId).then((data) => {
+        data.room.categories.forEach((category) => {
+          const room = this.add(category, data.room, true);
+          room.detail = data.detail;
+          return press.wire.fire(GlobalEventEnum.FETCHED_ROOM_BY_ID, roomId);
+        });
+      });
+    }
+  };
 }
 
 export default class RoomResource {
@@ -143,19 +181,27 @@ export default class RoomResource {
     return this.container.kmap.has(category);
   }
 
-  public load(category: string) {
-    return this.container.kmap.get(category);
+  public loadedDetail(roomId: string) {
+    return this.container.pool.has(roomId);
   }
 
-  public fetch(category: string, refresh: boolean = false) {
-    return this.container.fetch(category, refresh);
+  public load(category: string) {
+    return this.container.kmap.get(category).rooms;
+  }
+
+  public fetchRoomsByCategory(category: string, refresh: boolean = false) {
+    return this.container.fetchRoomsByCategory(category, refresh);
+  }
+
+  public fetchRoom(roomId: string, refresh: boolean = false) {
+    return this.container.fetchRoomByRoomId(roomId, refresh);
   }
 
   public getRooms(category: string) {
-    return Array.from(this.container.kmap.get(category));
+    return Array.from(this.container.kmap.get(category).rooms);
   }
 
-  public getRoomDetail(roomId: number) {
-    return undefined;
+  public getRoomDetail(roomId: string) {
+    return this.container.pool.get(roomId).provisonal;
   }
 }

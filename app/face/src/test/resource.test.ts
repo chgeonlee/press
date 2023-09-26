@@ -24,7 +24,7 @@ describe("Room Resource", () => {
   });
 
   test("fetch rooms", async () => {
-    await resource.room.fetch("practice");
+    await resource.room.fetchRoomsByCategory("practice");
     expect(resource.room.getRooms("practice")).toHaveLength(15);
   });
 

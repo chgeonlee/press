@@ -17,9 +17,7 @@ export default function Root() {
       <Section>
         <Header />
       </Section>
-      <Section>
-        <Outlet />
-      </Section>
+      <Outlet />
     </div>
   );
 }

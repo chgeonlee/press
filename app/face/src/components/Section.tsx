@@ -2,11 +2,21 @@ import { ReactNode } from "react";
 import useViewport, { ViewportEnum } from "../hooks/useViewport";
 import classNames from "classnames";
 
-const Section = ({ children }: { children: ReactNode | ReactNode[] }) => {
+export interface ISectionProps {
+  children: ReactNode | ReactNode[];
+  floating: boolean;
+}
+
+const Section = ({ children, floating }: ISectionProps) => {
   const viewport = useViewport();
   const port = viewport === ViewportEnum.MOBILE ? "mobile" : "tablet";
+  const float = floating ? "float" : "";
 
-  return <div className={classNames("section", port)}>{children}</div>;
+  return <div className={classNames("section", port, float)}>{children}</div>;
 };
 
 export default Section;
+
+Section.defaultProps = {
+  floating: false,
+};

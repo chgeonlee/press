@@ -10,6 +10,7 @@ import { GlobalEventEnum } from "../constants";
 import resources from "../resources";
 import { CATEGORIES } from "../fixture";
 import press from "@/lib";
+import Section from "../components/Section";
 
 const useStyles = createUseStyles((theme: any) => ({
   container: press.style
@@ -45,13 +46,14 @@ export default function Home() {
     };
 
     window.addEventListener(
-      "re" + GlobalEventEnum.FETCHED_ROOM_RESOURCE,
+      "re" + GlobalEventEnum.FETCHED_ROOMS_CATEGORY,
       fetched,
     );
-    resources.room.fetch(currentCategoryId);
+    resources.room.fetchRoomsByCategory(currentCategoryId);
+
     return () => {
       return window.removeEventListener(
-        "re" + GlobalEventEnum.FETCHED_ROOM_RESOURCE,
+        "re" + GlobalEventEnum.FETCHED_ROOMS_CATEGORY,
         fetched,
       );
     };
@@ -62,30 +64,32 @@ export default function Home() {
   }
 
   return (
-    <div className="home">
-      <div className={classNames(classes.container, "tabs")}>
-        <Collapse columns={categoryGridColumns} rows={1}>
-          {CATEGORIES.data.map((data, index) => {
-            return (
-              <IconLabel
-                key={index}
-                iconElement={data.icon}
-                name={data.name}
-                fnClick={() => {
-                  setCurrentCategoryId(data.id);
-                }}
-              />
-            );
-          })}
-        </Collapse>
+    <Section>
+      <div className="home">
+        <div className={classNames(classes.container, "tabs")}>
+          <Collapse columns={categoryGridColumns} rows={1}>
+            {CATEGORIES.data.map((data, index) => {
+              return (
+                <IconLabel
+                  key={index}
+                  iconElement={data.icon}
+                  name={data.name}
+                  fnClick={() => {
+                    setCurrentCategoryId(data.id);
+                  }}
+                />
+              );
+            })}
+          </Collapse>
+        </div>
+        <div className="contents">
+          <Grid columns={roomGridColumns}>
+            {data.map((data, index) => {
+              return <ItemCard key={index} item={data.provisonal.meta} />;
+            })}
+          </Grid>
+        </div>
       </div>
-      <div className="contents">
-        <Grid columns={roomGridColumns}>
-          {data.map((data, index) => {
-            return <ItemCard key={index} item={data.provisonal} />;
-          })}
-        </Grid>
-      </div>
-    </div>
+    </Section>
   );
 }

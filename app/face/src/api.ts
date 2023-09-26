@@ -1,5 +1,5 @@
 import axios from "axios";
-import { IRoomData } from "./resources/room";
+import { IRoomData, IRoomDetailData } from "./resources/room";
 import { CreatorRoomsData, PartyRoomsData, PracRoomsData } from "./fixture";
 
 const instance = axios.create({
@@ -27,5 +27,24 @@ export const getRooms = (category: string): Promise<{ rooms: IRoomData[] }> => {
   }
 };
 
-export const getRoomDetail = (roomId: string) =>
-  instance.get(`rooms/${roomId}`).then((response) => response.data);
+export const getRoomDetail = (
+  roomId: string,
+): Promise<{ room: IRoomData; detail: IRoomDetailData }> => {
+  if (process.env.USE_MOCK_DATA) {
+    return new Promise((resolve) => {
+      const nset = [...PracRoomsData, ...PartyRoomsData, ...CreatorRoomsData];
+      const item = nset.find((item) => item.id == roomId);
+
+      resolve({
+        room: item,
+        detail: {
+          reviews: [],
+          position: [0, 0],
+          capacity: 3,
+        },
+      });
+    });
+  } else {
+    return instance.get(`rooms/${roomId}`).then((response) => response.data);
+  }
+};

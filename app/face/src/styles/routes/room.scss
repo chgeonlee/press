@@ -1,0 +1,25 @@
+.room {
+  padding: 24px 12px;
+  display: flex;
+  gap: 24px;
+
+  &.mobile {
+    flex-direction: column;
+  }
+
+  .room-meta {
+    display: block;
+    position: sticky;
+    top: 0px;
+    flex: 1 0 auto;
+    .room-header {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+  }
+
+  .room-grid {
+    max-width: 712px;
+  }
+}

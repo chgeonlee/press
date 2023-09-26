@@ -32,6 +32,7 @@ const ItemCard = ({ item }: IItemCardProps) => {
       window.removeEventListener("resize", resize);
     };
   }, []);
+  if (item == null) return;
 
   return (
     <Link to={`/room/${item.id}`}>
@@ -40,7 +41,7 @@ const ItemCard = ({ item }: IItemCardProps) => {
           <img
             ref={ref}
             src={
-              item.imgset[0]
+              item.imgset && item.imgset[0]
                 ? item.imgset[0]
                 : "https://i.pinimg.com/564x/dd/67/fe/dd67feaef7120dc8b7c6a1925bae69e0.jpg"
             }

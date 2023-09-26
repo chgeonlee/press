@@ -4,6 +4,7 @@ export enum ThemeModeEnum {
 }
 
 export enum GlobalEventEnum {
-  FETCHED_ROOM_RESOURCE = "fetchedRoomResource",
+  FETCHED_ROOMS_CATEGORY = "fetchedRoomsCategory",
+  FETCHED_ROOM_BY_ID = "fetchedRoomByID",
   FETCHED_ROOM_DETAIL = "fetchedRoomDetail",
 }
