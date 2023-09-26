@@ -6,7 +6,11 @@ export default function Room(props) {
 
   return (
     <div>
-      <Masonry columns={4} rowGap={12} columnGap={12}></Masonry>
+      item { id }
+      {/* <Masonry columns={4} rowGap={12} columnGap={12}>
+        <div>개발 진행중</div>
+        <div>개발 진행중</div>
+      </Masonry> */}
     </div>
   );
 }
