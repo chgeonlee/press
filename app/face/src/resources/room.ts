@@ -103,6 +103,7 @@ class Container {
       inst = this.pool.get( room.id )
     } else {
       inst = new Room( room );
+      this.pool.set(room.id, inst);
     }
 
     if(!this.kmap.has(category )) {
