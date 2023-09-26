@@ -2,7 +2,7 @@ import { FaAccusoft, FaAllergies, FaTractor } from "react-icons/fa";
 
 export const PracRoomsData = [
   {
-    id: "",
+    id: "1",
     title: "Hyeonnam-myeon, Yangyang, 한국",
     rating: 3.5,
     description: "양양의 반려견과 함께할 수 있는 숙소",
@@ -13,7 +13,7 @@ export const PracRoomsData = [
     ],
   },
   {
-    id: "",
+    id: "2",
     title: "레지던스 전체 안 Gwangan 2, 한국",
     rating: 4.5,
     description:
@@ -25,7 +25,7 @@ export const PracRoomsData = [
     ],
   },
   {
-    id: "",
+    id: "3",
     title: "펜션 안 Jumunjin-eup, Gangneung, 한국",
     rating: 4.5,
     description: "마이워크스페이스4호점",
@@ -36,7 +36,7 @@ export const PracRoomsData = [
     ],
   },
   {
-    id: "",
+    id: "4",
     title: "서울 강남구 역세권",
     rating: 4.5,
     description: "마이워크스페이스4호점",
@@ -47,7 +47,7 @@ export const PracRoomsData = [
     ],
   },
   {
-    id: "",
+    id: "5",
     title: "서울 강남구 역세권",
     rating: 4.5,
     description: "마이워크스페이스4호점",
@@ -67,7 +67,7 @@ export const PracRoomsData = [
     ],
   },
   {
-    id: "",
+    id: "6",
     title: "레지던스 전체 안 Gwangan 2, 한국",
     rating: 4.5,
     description:
@@ -79,7 +79,7 @@ export const PracRoomsData = [
     ],
   },
   {
-    id: "",
+    id: "7",
     title: "펜션 안 Jumunjin-eup, Gangneung, 한국",
     rating: 4.5,
     description: "마이워크스페이스4호점",
@@ -90,7 +90,7 @@ export const PracRoomsData = [
     ],
   },
   {
-    id: "",
+    id: "8",
     title: "서울 강남구 역세권",
     rating: 4.5,
     description: "마이워크스페이스4호점",
@@ -101,7 +101,7 @@ export const PracRoomsData = [
     ],
   },
   {
-    id: "",
+    id: "9",
     title: "서울 강남구 역세권",
     rating: 4.5,
     description: "마이워크스페이스4호점",
@@ -110,7 +110,7 @@ export const PracRoomsData = [
     imgset: [],
   },
   {
-    id: "",
+    id: "10",
     title: "Hyeonnam-myeon, Yangyang, 한국",
     rating: 3.5,
     description: "양양의 반려견과 함께할 수 있는 숙소",
@@ -121,7 +121,7 @@ export const PracRoomsData = [
     ],
   },
   {
-    id: "",
+    id: "11",
     title: "레지던스 전체 안 Gwangan 2, 한국",
     rating: 4.5,
     description:
@@ -133,7 +133,7 @@ export const PracRoomsData = [
     ],
   },
   {
-    id: "",
+    id: "12",
     title: "펜션 안 Jumunjin-eup, Gangneung, 한국",
     rating: 4.5,
     description: "마이워크스페이스4호점",

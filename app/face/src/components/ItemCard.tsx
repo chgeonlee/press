@@ -4,7 +4,6 @@ import { useLayoutEffect, useRef } from "react";
 import press from "@/lib";
 
 export interface IItemCardProps {
-  title?: string;
   item: {
     id: string;
     imgset: string[];
@@ -16,7 +15,7 @@ export interface IItemCardProps {
   };
 }
 
-const ItemCard = ({ title, item }: IItemCardProps) => {
+const ItemCard = ({ item }: IItemCardProps) => {
   const ref = useRef<HTMLImageElement>();
 
   useLayoutEffect(() => {

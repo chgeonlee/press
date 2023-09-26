@@ -86,32 +86,41 @@ class Room {
 
 // Container class for managing a collection of Room instances.
 class Container {
-  pool: { [category: string]: Room[] } = {};
+  
+  pool: Map<string, Room> = new Map();
+  kmap: Map<string, Set<Room>> = new Map();
 
   constructor() {
+
     this.add = this.add.bind(this);
     this.fetch = this.fetch.bind(this);
   }
 
-  add(category: string, room: IRoomData) {
-    if (!this.pool[category]) {
-        this.pool[category] = [];
+  private add(category: string, room: IRoomData) {
+    let inst: Room;
+
+    if(this.pool.has( room.id ) ) {
+      inst = this.pool.get( room.id )
+    } else {
+      inst = new Room( room );
     }
-    
-    this.pool[category].push(new Room(room));
+
+    if(!this.kmap.has(category )) {
+      this.kmap.set(category, new Set() );
+    }
+
+    this.kmap.get(category)!.add(inst);
+
   }
 
   // Fetches rooms data. If already fetched (and no force refresh), it triggers an event.
   fetch(category: string, refresh: boolean = false) {
-    if (refresh == false && this.pool[category] !== undefined) {
+    if (refresh === false && this.kmap.has(category) ) {
       return press.wire.fire(GlobalEventEnum.FETCHED_ROOM_RESOURCE, category);
     } else {
-      this.pool[category] = [];
-
       getRooms(category)
         .then((data) => {
-          const rooms = data.rooms;
-          rooms.forEach((room) => this.add(category, room));
+          data.rooms.forEach((room) => this.add(category, room));
           press.wire.fire(GlobalEventEnum.FETCHED_ROOM_RESOURCE, category);
         })
         .catch((error) => {
@@ -133,11 +142,11 @@ export default class RoomResource {
   }
 
   public loaded(category: string) {
-    return this.container.pool[category] !== undefined;
+    return this.container.kmap.has(category);
   }
 
   public load(category: string) {
-    return this.container.pool[category];
+    return this.container.kmap.get(category);    
   }
 
   public fetch(category: string, refresh: boolean = false) {
@@ -145,10 +154,10 @@ export default class RoomResource {
   }
 
   public getRooms(category: string) {
-    return this.container.pool[category];
+    return Array.from(this.container.kmap.get(category));    
   }
 
-  public getRoomDetail(category: string, roomId: number) {
+  public getRoomDetail(roomId: number) {
     return undefined;
   }
 }

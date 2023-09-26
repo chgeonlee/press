@@ -14,7 +14,7 @@ const sampleData = {
   
   describe("Room Resource", () => {
     beforeAll(() => {
-        process.env.USE_MOCK_DATA = 'true';
+      process.env.USE_MOCK_DATA = 'true';
 
       jest.mock('../api.ts', () => ({
         getRooms: jest.fn().mockResolvedValue({ rooms: [sampleData] }),
