@@ -28,7 +28,7 @@ describe("Style and Spec functionality", () => {
 
   test("edge method with only width and color", () => {
     const instance = press.style.absolute().edge(10, "red");
-    expect(instance.border).toBe("10px solid red");    
+    expect(instance.border).toBe("10px solid red");
   });
 
   test("edge method with specific place (LEFT)", () => {

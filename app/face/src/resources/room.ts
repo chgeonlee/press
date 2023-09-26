@@ -86,12 +86,10 @@ class Room {
 
 // Container class for managing a collection of Room instances.
 class Container {
-  
   pool: Map<string, Room> = new Map();
   kmap: Map<string, Set<Room>> = new Map();
 
   constructor() {
-
     this.add = this.add.bind(this);
     this.fetch = this.fetch.bind(this);
   }
@@ -99,24 +97,23 @@ class Container {
   private add(category: string, room: IRoomData) {
     let inst: Room;
 
-    if(this.pool.has( room.id ) ) {
-      inst = this.pool.get( room.id )
+    if (this.pool.has(room.id)) {
+      inst = this.pool.get(room.id);
     } else {
-      inst = new Room( room );
+      inst = new Room(room);
       this.pool.set(room.id, inst);
     }
 
-    if(!this.kmap.has(category )) {
-      this.kmap.set(category, new Set() );
+    if (!this.kmap.has(category)) {
+      this.kmap.set(category, new Set());
     }
 
     this.kmap.get(category)!.add(inst);
-
   }
 
   // Fetches rooms data. If already fetched (and no force refresh), it triggers an event.
   fetch(category: string, refresh: boolean = false) {
-    if (refresh === false && this.kmap.has(category) ) {
+    if (refresh === false && this.kmap.has(category)) {
       return press.wire.fire(GlobalEventEnum.FETCHED_ROOM_RESOURCE, category);
     } else {
       getRooms(category)
@@ -147,7 +144,7 @@ export default class RoomResource {
   }
 
   public load(category: string) {
-    return this.container.kmap.get(category);    
+    return this.container.kmap.get(category);
   }
 
   public fetch(category: string, refresh: boolean = false) {
@@ -155,7 +152,7 @@ export default class RoomResource {
   }
 
   public getRooms(category: string) {
-    return Array.from(this.container.kmap.get(category));    
+    return Array.from(this.container.kmap.get(category));
   }
 
   public getRoomDetail(roomId: number) {

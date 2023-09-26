@@ -10,7 +10,7 @@ const instance = axios.create({
   withCredentials: true,
 });
 
-export const getRooms = (category: string,): Promise<{ rooms: IRoomData[] }> => {
+export const getRooms = (category: string): Promise<{ rooms: IRoomData[] }> => {
   if (process.env.USE_MOCK_DATA) {
     return new Promise((resolve) => {
       resolve({

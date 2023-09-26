@@ -6,7 +6,7 @@ import Section from "./Section";
 import press from "@/lib";
 
 const useStyles = createUseStyles((theme: any) => ({
-    container: press.style.relative().back(theme.background).color( theme.text )
+  container: press.style.relative().back(theme.background).color(theme.text),
 }));
 
 export default function Root() {
