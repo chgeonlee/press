@@ -56,17 +56,6 @@ export const PracRoomsData = [
     imgset: [],
   },
   {
-    id: "",
-    title: "Hyeonnam-myeon, Yangyang, 한국",
-    rating: 3.5,
-    description: "양양의 반려견과 함께할 수 있는 숙소",
-    price: 5000,
-    pricePerUnit: "M",
-    imgset: [
-      "https://a0.muscache.com/im/pictures/miso/Hosting-668146487515150072/original/8ff2a532-e0cd-41a2-9164-554c4d9eb28a.jpeg?im_w=720",
-    ],
-  },
-  {
     id: "6",
     title: "레지던스 전체 안 Gwangan 2, 한국",
     rating: 4.5,
@@ -144,7 +133,7 @@ export const PracRoomsData = [
     ],
   },
   {
-    id: "",
+    id: "13",
     title: "서울 강남구 역세권",
     rating: 4.5,
     description: "마이워크스페이스4호점",
@@ -155,7 +144,7 @@ export const PracRoomsData = [
     ],
   },
   {
-    id: "",
+    id: "14",
     title: "서울 강남구 역세권",
     rating: 4.5,
     description: "마이워크스페이스4호점",
@@ -167,7 +156,7 @@ export const PracRoomsData = [
 
 export const PartyRoomsData = [
   {
-    id: "",
+    id: "15",
     title: "서울 강남구 역세권",
     rating: 4.5,
     description: "마이워크스페이스4호점",
@@ -178,7 +167,7 @@ export const PartyRoomsData = [
     ],
   },
   {
-    id: "",
+    id: "16",
     title: "서울 강남구 역세권",
     rating: 4.5,
     description: "마이워크스페이스4호점",
@@ -190,7 +179,7 @@ export const PartyRoomsData = [
 
 export const CreatorRoomsData = [
   {
-    id: "",
+    id: "17",
     title: "서울 강남구 역세권",
     rating: 4.5,
     description: "마이워크스페이스4호점",
@@ -201,7 +190,7 @@ export const CreatorRoomsData = [
     ],
   },
   {
-    id: "",
+    id: "18",
     title: "서울 강남구 역세권",
     rating: 4.5,
     description: "마이워크스페이스4호점",
@@ -212,7 +201,7 @@ export const CreatorRoomsData = [
     ],
   },
   {
-    id: "",
+    id: "19",
     title: "서울 강남구 역세권",
     rating: 3.5,
     description: "마이워크스페이스4호점",
