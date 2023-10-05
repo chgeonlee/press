@@ -11,6 +11,7 @@ import resources from "../resources";
 import { CATEGORIES } from "../fixture";
 import press from "@/lib";
 import Section from "../components/Section";
+import PriceChart from "../components/PriceChart";
 
 const useStyles = createUseStyles((theme: any) => ({
   container: press.style
@@ -66,6 +67,9 @@ export default function Home() {
   return (
     <Section>
       <div className="home">
+        <div>
+          <PriceChart data={generateRandomData(400)} />
+        </div>
         <div className={classNames(classes.container, "tabs")}>
           <Collapse columns={categoryGridColumns} rows={1}>
             {CATEGORIES.data.map((data, index) => {
@@ -92,4 +96,15 @@ export default function Home() {
       </div>
     </Section>
   );
+}
+function getRandomInt(min, max) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+function generateRandomData(pointsCount) {
+  const data = [];
+  for (let i = 0; i < pointsCount; i++) {
+    const y = getRandomInt(0, 100);
+    data.push([i, y]);
+  }
+  return data;
 }

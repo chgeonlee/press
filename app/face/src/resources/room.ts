@@ -62,6 +62,10 @@ class Room {
     this.data.description = d;
   }
 
+  get price() {
+    return this.data.price;
+  }
+
   set price(p: number) {
     this.data.price = p;
   }
@@ -101,6 +105,7 @@ class Room {
 class Container {
   pool: Map<string, Room> = new Map();
   kmap: Map<string, ICategoryInfo> = new Map();
+  covr: { beg: number; end: number } = { beg: 3001, end: null };
 
   private add = (
     category: string,
@@ -130,6 +135,22 @@ class Container {
 
     return inst;
   };
+
+  getRangedRoomsByCategory(category: string) {
+    return [...this.kmap.get(category).rooms].filter((room) => {
+      if (this.covr == null) return true;
+
+      if (this.covr.beg !== null && this.covr.beg > room.price) {
+        return false;
+      }
+
+      if (this.covr.end !== null && this.covr.end <= room.price) {
+        return false;
+      }
+
+      return true;
+    });
+  }
 
   // Fetches rooms data. If already fetched (and no force refresh), it triggers an event.
   fetchRoomsByCategory = (category: string, refresh: boolean = false) => {
@@ -187,6 +208,10 @@ export default class RoomResource {
 
   public load(category: string) {
     return this.container.kmap.get(category).rooms;
+  }
+
+  public loadFiltered(category: string) {
+    return this.container.getRangedRoomsByCategory(category);
   }
 
   public fetchRoomsByCategory(category: string, refresh: boolean = false) {

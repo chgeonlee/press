@@ -15,7 +15,7 @@ export class BarModel extends BaseModel {
     const w = (this.prop.barWidth as number) || 1;
     const g = (this.prop.barGap as number) || 0;
 
-    return this.data.map(([x, y]) => {
+    return this.data.map(([x, y], index) => {
       const path = press
         .path(container.scaleX(x), container.scaleY(y))
         .lineTo(container.scaleX(x), container.scaleY(0))
