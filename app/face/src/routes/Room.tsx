@@ -2,7 +2,7 @@ import press from "@/lib";
 import { useParams } from "react-router-dom";
 import Masonry from "../components/Masonry";
 import resources from "../resources";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { GlobalEventEnum } from "../constants";
 import Text, { TextSizeEnum } from "../components/Text";
 import Section from "../components/Section";
@@ -13,6 +13,7 @@ export default function Room() {
   const { id } = useParams();
   const [data, setData] = useState(undefined);
   const viewport = useViewport();
+  const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const record = () => {
@@ -33,6 +34,22 @@ export default function Room() {
       );
     };
   }, []);
+
+  useEffect(() => {
+    const resize = () => {
+      if (ref.current) {
+        const rect = ref.current.getBoundingClientRect();
+        // chartRef.current.updateDimensions(rect.width, rect.height);
+      }
+    };
+
+    window.addEventListener("resize", resize);
+    resize();
+
+    return () => {
+      window.removeEventListener("resize", resize);
+    };
+  }, [data, ref.current]);
 
   if (data == undefined) {
     return <div>loading</div>;
@@ -58,6 +75,7 @@ export default function Room() {
             </Text>
           </div>
         </div>
+
         <div className="room-grid">
           {data.meta.imgset.length > 0 && (
             <Masonry

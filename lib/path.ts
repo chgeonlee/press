@@ -1,4 +1,5 @@
 export default class Path {
+  private color: string = "black"; // default color
   public trail: string;
   public x: number;
   public y: number;
@@ -64,5 +65,20 @@ export default class Path {
   close(): Path {
     this.trail += "Z";
     return this;
+  }
+
+  createElement(attrs?: any): SVGPathElement {
+    const pathElement = document.createElementNS(
+      "http://www.w3.org/2000/svg",
+      "path",
+    );
+
+    if (attrs) {
+      Object.keys(attrs).forEach((key) => {
+        pathElement.setAttribute(key, attrs[key]);
+      });
+    }
+    pathElement.setAttribute("d", this.trail);
+    return pathElement;
   }
 }

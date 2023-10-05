@@ -4,6 +4,7 @@ import Device from "./device";
 import Wire from "./wire";
 import Util from "./util";
 import Style from "./style";
+import Chart from "./chart";
 
 class Press {
   private static _instance: Press;
@@ -33,6 +34,10 @@ class Press {
 
   public path(x: number, y: number) {
     return new Path(x, y);
+  }
+
+  public chart() {
+    return new Chart();
   }
 }
 
