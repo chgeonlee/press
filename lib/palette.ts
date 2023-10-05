@@ -30,5 +30,5 @@ export default class Palette {
   public readonly olive = "#92630a";
   public readonly navy = "#000028";
   public readonly grey = "#e3e4e1";
-  public readonly snow = '#f9f9f9'
+  public readonly snow = "#f9f9f9";
 }

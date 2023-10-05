@@ -4,6 +4,7 @@ import Circle from "./icon/self/circle";
 import _ from "lodash";
 import resources from "../resources";
 import Text, { TextSizeEnum, TextWeightEnum } from "./Text";
+import { GlobalEventEnum } from "../constants";
 
 const PriceChart = ({ data }: { data: [number, number][] }) => {
   const unit = 1000;
@@ -56,6 +57,7 @@ const PriceChart = ({ data }: { data: [number, number][] }) => {
 
   useEffect(() => {
     const draw = () => {
+      console.log("...?", data);
       const rect = ref.current.getBoundingClientRect();
       const container = chart
         .container(ref.current)
@@ -76,26 +78,33 @@ const PriceChart = ({ data }: { data: [number, number][] }) => {
     };
 
     window.addEventListener("resize", draw);
-
+    window.addEventListener(
+      "re" + GlobalEventEnum.FETCHED_ROOMS_CATEGORY,
+      draw,
+    );
     draw();
 
     return () => {
       window.removeEventListener("resize", draw);
+      window.removeEventListener(
+        "re" + GlobalEventEnum.FETCHED_ROOMS_CATEGORY,
+        draw,
+      );
     };
-  }, [data]);
+  }, []);
 
   const leftSet = useMemo(
     () => _.filter(data, (d) => d[0] < leftFilterIndex),
-    [leftFilterIndex],
+    [leftFilterIndex, data],
   );
   const rightSet = useMemo(
     () => _.filter(data, (d) => d[0] >= rightFilterIndex),
-    [rightFilterIndex],
+    [rightFilterIndex, data],
   );
   const middleSet = useMemo(
     () =>
       _.filter(data, (d) => d[0] >= leftFilterIndex && d[0] < rightFilterIndex),
-    [leftFilterIndex, rightFilterIndex],
+    [leftFilterIndex, rightFilterIndex, data],
   );
 
   const leftSpec = useMemo(() => {
@@ -108,7 +117,7 @@ const PriceChart = ({ data }: { data: [number, number][] }) => {
 
   const rightSpec = useMemo(() => {
     return {
-      attr: { fill: press.palette.grey},
+      attr: { fill: press.palette.grey },
       prop: { barGap: 1, barWidth: 1000 },
       data: rightSet,
     };
@@ -136,9 +145,16 @@ const PriceChart = ({ data }: { data: [number, number][] }) => {
   }, [leftFilterIndex, rightFilterIndex, rect]);
 
   return (
-    <div style={press.style.relative().edge( 1, press.palette.grey ).add({ padding: 12, margin: 12 })}>
+    <div
+      style={press.style
+        .relative()
+        .edge(1, press.palette.grey)
+        .add({ padding: 12, margin: 12 })}
+    >
       <div style={{ padding: 12 }}>
-        <Text size={TextSizeEnum.LG} weight={TextWeightEnum.MEDIUM}>가격 필터</Text>
+        <Text size={TextSizeEnum.LG} weight={TextWeightEnum.MEDIUM}>
+          가격 필터
+        </Text>
       </div>
       <div style={{ padding: 12, height: 60 }}>
         <svg ref={ref} width={"100%"} height={"100%"} />
