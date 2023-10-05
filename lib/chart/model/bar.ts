@@ -12,15 +12,20 @@ export class BarModel extends BaseModel {
   }
 
   draw(container: Container): Path[] {
-    const w = (this.prop.barWidth as number) || 1;
+    let w = (this.prop.barWidth as number) || 12;
     const g = (this.prop.barGap as number) || 0;
+    const ey = container.scaleY(0);
 
     return this.data.map(([x, y], index) => {
+      const bx = container.scaleX(x);
+      const ex = container.scaleX(x + w) - g;
+      const by = container.scaleY(y);
+
       const path = press
-        .path(container.scaleX(x), container.scaleY(y))
-        .lineTo(container.scaleX(x), container.scaleY(0))
-        .lineTo(container.scaleX(x + w) - g, container.scaleY(0))
-        .lineTo(container.scaleX(x + w) - g, container.scaleY(y))
+        .path(bx, by)
+        .lineTo(bx, ey)
+        .lineTo(ex, ey)
+        .lineTo(ex, by)
         .close();
       return path;
     });

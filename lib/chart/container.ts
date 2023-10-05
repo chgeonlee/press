@@ -14,6 +14,13 @@ export default class Container {
 
   private _models: (BarModel | LineModel)[] = [];
 
+  constructor(private canvas: SVGElement) {}
+
+  clear() {
+    this._models = [];
+    this.canvas.innerHTML = "";
+  }
+
   setModel(model: BarModel | LineModel): this {
     this._models.push(model);
     return this;
@@ -49,9 +56,12 @@ export default class Container {
     return this;
   }
 
-  scaleX(value: number): number {
+  scaleX(value: number, debug: boolean = false): number {
     const domainSize = this._domainX[1] - this._domainX[0];
     const rangeSize = this._rangeX[1] - this._rangeX[0];
+    if (debug) {
+      console.log(">", domainSize, rangeSize);
+    }
     return (
       ((value - this._domainX[0]) / domainSize) * rangeSize + this._rangeX[0]
     );
@@ -89,8 +99,8 @@ export default class Container {
     return this;
   };
 
-  draw = (svg: SVGElement) => {
-    this.drawAxis(svg);
-    this.drawModel(svg);
+  draw = () => {
+    this.drawAxis(this.canvas);
+    this.drawModel(this.canvas);
   };
 }

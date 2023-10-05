@@ -23,6 +23,14 @@ const imageset = [
   "https://a0.muscache.com/im/pictures/miso/Hosting-814937613380365669/original/7ee4b2be-ec19-4f57-bf2d-fe459b3b79cb.jpeg?im_w=720",
 ];
 
+function normalRandom(mean, variance) {
+  let sum = 0;
+  for (let i = 0; i < 24; i++) {
+    sum += Math.random();
+  }
+  return Math.abs(mean + Math.sqrt(variance) * (sum - 6));
+}
+
 const generateMockData = (num, pre, cat) => {
   const mockData = [];
 
@@ -32,7 +40,7 @@ const generateMockData = (num, pre, cat) => {
       title: `${chance.city()}, ${chance.country({ full: true })}`,
       rating: parseFloat(chance.floating({ min: 0, max: 5, fixed: 1 })),
       description: `${chance.city()}의 ${chance.animal()}과 함께할 수 있는 숙소`,
-      price: chance.integer({ min: 1000, max: 10000 }),
+      price: Math.round(normalRandom(1000, 40000000)),
       pricePerUnit: "M",
       imgset: chance.shuffle(imageset).slice(0, 7),
       categories: [cat],
@@ -42,9 +50,11 @@ const generateMockData = (num, pre, cat) => {
   return mockData;
 };
 
-export const PracRoomsData = generateMockData(100, 0, "practice");
-export const PartyRoomsData = generateMockData(100, 100, "party");
-export const CreatorRoomsData = generateMockData(200, 200, "creator");
+const size = 100;
+
+export const PracRoomsData = generateMockData(size, 0, "practice");
+export const PartyRoomsData = generateMockData(size, size, "party");
+export const CreatorRoomsData = generateMockData(size, size * 2, "creator");
 
 const SIZE = 18;
 export const CATEGORIES = {

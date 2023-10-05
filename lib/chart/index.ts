@@ -3,8 +3,8 @@ import { BarModel } from "./model/bar";
 import { LineModel } from "./model/line";
 
 export default class Chart {
-  get container() {
-    return new Container();
+  container(canvas: SVGElement) {
+    return new Container(canvas);
   }
 
   get model() {

@@ -43,8 +43,13 @@ export default function Home() {
 
   useEffect(() => {
     const fetched = () => {
-      setData([...resources.room.load(currentCategoryId)]);
+      setData([...resources.room.loadFiltered(currentCategoryId)]);
     };
+
+    window.addEventListener(
+      "re" + GlobalEventEnum.UPDATED_ROOM_PRICE_FILTER,
+      fetched,
+    );
 
     window.addEventListener(
       "re" + GlobalEventEnum.FETCHED_ROOMS_CATEGORY,
@@ -53,8 +58,13 @@ export default function Home() {
     resources.room.fetchRoomsByCategory(currentCategoryId);
 
     return () => {
-      return window.removeEventListener(
+      window.removeEventListener(
         "re" + GlobalEventEnum.FETCHED_ROOMS_CATEGORY,
+        fetched,
+      );
+
+      window.removeEventListener(
+        "re" + GlobalEventEnum.UPDATED_ROOM_PRICE_FILTER,
         fetched,
       );
     };
@@ -63,12 +73,18 @@ export default function Home() {
   if (data == undefined) {
     return <div> loading ... </div>;
   }
+  const d = resources.room.stat(currentCategoryId)
+    ? [...resources.room.stat(currentCategoryId).price]
+    : [];
+  d.sort((a, b) => {
+    return a[0] > b[0] ? 1 : -1;
+  });
 
   return (
     <Section>
       <div className="home">
         <div>
-          <PriceChart data={generateRandomData(400)} />
+          <PriceChart data={d} />
         </div>
         <div className={classNames(classes.container, "tabs")}>
           <Collapse columns={categoryGridColumns} rows={1}>
