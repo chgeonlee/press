@@ -3,7 +3,7 @@ import Grid from "../components/Grid";
 import useViewport, { ViewportEnum } from "../hooks/useViewport";
 import { Collapse } from "../components/Collapse";
 import ItemCard from "../components/ItemCard";
-import { createUseStyles } from "react-jss";
+import { createUseStyles, useTheme } from "react-jss";
 import classNames from "classnames";
 import { useEffect, useState } from "react";
 import { GlobalEventEnum } from "../constants";
@@ -11,7 +11,8 @@ import resources from "../resources";
 import { CATEGORIES } from "../fixture";
 import press from "@/lib";
 import Section from "../components/Section";
-import PriceChart from "../components/PriceChart";
+import FilterChart from "../components/FilterChart";
+import Text from "../components/Text";
 
 const useStyles = createUseStyles((theme: any) => ({
   container: press.style
@@ -23,20 +24,20 @@ const useStyles = createUseStyles((theme: any) => ({
 export default function Home() {
   const classes = useStyles();
   const viewport = useViewport();
-
   const [currentCategoryId, setCurrentCategoryId] = useState("practice");
   const [data, setData] = useState(undefined);
-
-  const filterGridColumns =   viewport === ViewportEnum.MOBILE ? 1: 2;
-  const categoryGridColumns =
-    viewport === ViewportEnum.MOBILE
+  const [priceData, setPriceData] = useState<any>();
+  const [scoreData, setScoreData] = useState<any>();
+  const isMobile = viewport === ViewportEnum.MOBILE;
+  const categoryGridColumns = 
+    isMobile
       ? 4
       : viewport === ViewportEnum.TABLET
       ? 8
       : 12;
 
   const roomGridColumns =
-    viewport === ViewportEnum.MOBILE
+  isMobile
       ? 1
       : viewport === ViewportEnum.TABLET
       ? 4
@@ -45,6 +46,12 @@ export default function Home() {
   useEffect(() => {
     const fetched = () => {
       setData([...resources.room.loadFiltered(currentCategoryId)]);
+      const d = resources.room.stat(currentCategoryId)
+        ? resources.room.stat(currentCategoryId)
+        : null;
+
+      setScoreData(d.rating);
+      setPriceData(d.price);
     };
 
     window.addEventListener(
@@ -63,7 +70,6 @@ export default function Home() {
         "re" + GlobalEventEnum.FETCHED_ROOMS_CATEGORY,
         fetched,
       );
-
       window.removeEventListener(
         "re" + GlobalEventEnum.UPDATED_ROOM_PRICE_FILTER,
         fetched,
@@ -74,22 +80,29 @@ export default function Home() {
   if (data == undefined) {
     return <div> loading ... </div>;
   }
-  const d = resources.room.stat(currentCategoryId)
-    ? [...resources.room.stat(currentCategoryId).price]
-    : [];
-  d.sort((a, b) => {
-    return a[0] > b[0] ? 1 : -1;
-  });
 
   return (
     <Section>
       <div className="home">
-        <div style={{ display:'grid', gridTemplateColumns: `repeat( ${filterGridColumns}, 1fr)`}}>
-          <div style={{ maxWidth:712, width: '100%'}}>
-          <PriceChart data={d} />
+        <div className={classNames("filter-container", isMobile? 'mobile': '')}>
+          <div className={classNames("panel")}>
+            <div>
+              <Text> 가격 필터 </Text>
+            </div>
+            {priceData && <FilterChart data={priceData} category="price" />}
           </div>
-          <div style={{ maxWidth:712, width: '100%'}}>
-          <PriceChart data={d} />
+          <div className={classNames("panel")}>
+            <div>
+              <Text> 별점 필터 </Text>
+            </div>
+            {scoreData && (
+              <FilterChart
+                data={scoreData}
+                category="rating"
+                unit={1}
+                barWidth={1}
+              />
+            )}
           </div>
         </div>
         <div className={classNames(classes.container, "tabs")}>

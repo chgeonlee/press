@@ -29,7 +29,7 @@ export interface IRoomDetailData {
 interface ICategoryInfo {
   rooms: Set<Room>;
   partial: boolean;
-  stat: { price: Map<number, number> };
+  stat: { price: Map<number, number>; rating: Map<number, number> };
 }
 
 // Class representing a Room.
@@ -65,6 +65,10 @@ class Room {
 
   get price() {
     return this.data.price;
+  }
+
+  get rating() {
+    return this.data.rating;
   }
 
   set price(p: number) {
@@ -106,21 +110,28 @@ class Room {
 class Container {
   pool: Map<string, Room> = new Map();
   kmap: Map<string, ICategoryInfo> = new Map();
-  covr: { beg: number; end: number } = { beg: 3001, end: null };
 
-  updateRoomPriceFilter(beg, end) {
+  filter: {
+    price: { beg: number | null; end: number | null };
+    rating: { beg: number | null; end: number | null };
+  } = {
+    price: { beg: null, end: null },
+    rating: { beg: null, end: null },
+  };
+
+  updateFilter(beg, end, nkey) {
     let trigger = false;
 
-    if (beg && this.covr.beg !== beg) {
-      this.covr.beg = beg;
+    if (beg !== null && this.filter[nkey].beg != beg) {
+      this.filter[nkey].beg = beg;
       trigger = true;
     }
 
-    if (end && this.covr.end !== end) {
-      this.covr.end = end;
+    if (end !== null && this.filter[nkey].end != end) {
+      this.filter[nkey].end = end;
       trigger = true;
     }
-
+    
     if (trigger) {
       press.wire.fire(GlobalEventEnum.UPDATED_ROOM_PRICE_FILTER);
     }
@@ -143,43 +154,58 @@ class Container {
     const categoryInfo = this.kmap.get(category) || {
       rooms: new Set<Room>(),
       partial: partial,
-      stat: { price: new Map() },
+      stat: { price: new Map(), rating: new Map() },
     };
 
     if (categoryInfo.partial != partial) {
       categoryInfo.partial = partial;
     }
 
-    const u = 1000;
-    const p = parseInt(room.price / u + "") * u;
+    const setStat = (nkey, unit) => {
+      const p = parseInt(room[nkey] / unit + "") * unit;
+      const r = categoryInfo.stat[nkey].get(p);
 
-    const r = categoryInfo.stat.price.get(p);
+      if (r) {
+        categoryInfo.stat[nkey].set(p, r + 1);
+      } else {
+        categoryInfo.stat[nkey].set(p, 1);
+      }
+    };
 
-    if (r) {
-      categoryInfo.stat.price.set(p, r + 1);
-    } else {
-      categoryInfo.stat.price.set(p, 1);
-    }
+    setStat("price", 1000);
+    setStat("rating", 1);
+
     categoryInfo.rooms.add(inst);
     this.kmap.set(category, categoryInfo);
 
     return inst;
   };
 
-  getRangedRoomsByCategory(category: string) {
-    return [...this.kmap.get(category).rooms].filter((room) => {
-      if (this.covr == null) return true;
+  private cutting(room: Room) {
+    let result = true;
 
-      if (this.covr.beg !== null && this.covr.beg > room.price) {
-        return false;
+    Object.keys(this.filter).forEach((nkey) => {
+      if (
+        this.filter[nkey].beg !== null &&
+        this.filter[nkey].beg > room[nkey]
+      ) {
+        result = false;
       }
-
-      if (this.covr.end !== null && this.covr.end <= room.price) {
-        return false;
+      if (
+        this.filter[nkey].end !== null &&
+        this.filter[nkey].end <= room[nkey]
+      ) {
+        result = false;
       }
-
-      return true;
     });
+
+    return result;
+  }
+
+  getRangedRoomsByCategory(category: string) {
+    return [...this.kmap.get(category).rooms].filter((room) =>
+      this.cutting(room),
+    );
   }
 
   // Fetches rooms data. If already fetched (and no force refresh), it triggers an event.
@@ -244,8 +270,8 @@ export default class RoomResource {
     return this.container.kmap.get(category)?.stat;
   }
 
-  public priceFilter(beg, end) {
-    return this.container.updateRoomPriceFilter(beg, end);
+  public filter(beg, end, nkey) {
+    return this.container.updateFilter(beg, end, nkey);
   }
 
   public loadFiltered(category: string) {

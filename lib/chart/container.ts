@@ -56,12 +56,10 @@ export default class Container {
     return this;
   }
 
-  scaleX(value: number, debug: boolean = false): number {
+  scaleX(value: number): number {
     const domainSize = this._domainX[1] - this._domainX[0];
     const rangeSize = this._rangeX[1] - this._rangeX[0];
-    if (debug) {
-      console.log(">", domainSize, rangeSize);
-    }
+
     return (
       ((value - this._domainX[0]) / domainSize) * rangeSize + this._rangeX[0]
     );

@@ -9,9 +9,9 @@ import { createUseStyles } from "react-jss";
 import classNames from "classnames";
 
 const useStyles = createUseStyles((theme: any) => ({
-  container: press.style.relative().edge(1, theme.border).pad(12, 12, 12, 12 ),
-  chart: press.style.spec().pad(12, 12, 12, 12 ),
-  navigator: press.style.relative().edge(1, theme.border, 0)
+  container: press.style.relative().edge(1, theme.card).pad(12, 12, 12, 12).add( { margin: '12px 0', borderRadius: 12}),
+  chart: press.style.spec().pad(12, 12, 0, 12),
+  navigator: press.style.relative().edge(1, theme.edge, 0).add( { margin: '20px 0 36px', top: -6}),
 }));
 
 const useDomain = (data: [number, number][], unit): [number, number] => {
@@ -47,15 +47,18 @@ const generateBarSpec = (data, color, barWidth) => {
   };
 };
 
-const PriceChart = ({
-  data,
+const FilterChart = ({
+  data: d,
   unit = 1000,
   barWidth = 1000,
+  category = "price",
 }: {
-  data: [number, number][];
+  data: any;
   unit?: number;
   barWidth?: number;
+  category: "price" | "rating";
 }) => {
+  const data = [...d];
   const classes = useStyles();
   const domainRef = useRef<any>(null);
   const containerRef = useRef<any>(null);
@@ -69,7 +72,7 @@ const PriceChart = ({
   const findClosestValue = (target: number): number => {
     if (domainRef == null || domainRef.current == null) return 0;
     return _.minBy(
-      _.range(domainRef.current[0], domainRef.current[1], unit),
+      _.range(domainRef.current[0], domainRef.current[1] + unit, unit),
       (v) => Math.abs(containerRef.current.scaleX(v) - target),
     );
   };
@@ -105,7 +108,7 @@ const PriceChart = ({
         draw,
       );
     };
-  }, [rect]);
+  }, [d, rect]);
 
   const leftSpec = useMemo(() => {
     return generateBarSpec(
@@ -131,6 +134,8 @@ const PriceChart = ({
     );
   }, [leftFilterIndex, rightFilterIndex, data]);
 
+  useEffect(() => {}, []);
+
   useEffect(() => {
     const container = containerRef.current;
 
@@ -142,23 +147,25 @@ const PriceChart = ({
     container.setModel(chart.model.bar(middleSpec));
 
     container.draw();
-    resources.room.priceFilter(leftFilterIndex, rightFilterIndex);
+    resources.room.filter(leftFilterIndex, rightFilterIndex, category);
   }, [leftFilterIndex, rightFilterIndex, rect]);
-
+  
   const handleMouseDown =
     (direction: DirectionEnum) => (e: React.MouseEvent) => {
-      const handleMouseMove = (e: any) => {
-        const fidx = findClosestValue(
-          Math.min(Math.max(e.clientX - rect.left, 0), rect.width),
-        );
 
-        if (direction === DirectionEnum.LEFT && fidx < rightFilterIndex) {
-          setLeftFilterIndex(fidx);
+      const handleMouseMove = (e: any) => {
+        
+        const v = findClosestValue(
+          Math.min(Math.max(e.clientX - rect.left ), rect.width)
+        );
+          
+        if (direction === DirectionEnum.LEFT && v < rightFilterIndex) {
+          setLeftFilterIndex( v );
         } else if (
           direction === DirectionEnum.RIGHT &&
-          fidx > leftFilterIndex
+          containerRef.current?.scaleX(v) >= containerRef.current?.scaleX(leftFilterIndex + unit)
         ) {
-          setRightFilterIndex(fidx);
+          setRightFilterIndex(v);
         }
       };
 
@@ -182,7 +189,7 @@ const PriceChart = ({
           onMouseDown={handleMouseDown(DirectionEnum.LEFT)}
         />
         <FilterCircle
-          position={containerRef.current?.scaleX(rightFilterIndex)}
+          position={containerRef.current?.scaleX(rightFilterIndex )}
           onMouseDown={handleMouseDown(DirectionEnum.RIGHT)}
         />
       </div>
@@ -190,4 +197,4 @@ const PriceChart = ({
   );
 };
 
-export default PriceChart;
+export default FilterChart;

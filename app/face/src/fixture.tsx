@@ -38,7 +38,7 @@ const generateMockData = (num, pre, cat) => {
     mockData.push({
       id: String(i + 1),
       title: `${chance.city()}, ${chance.country({ full: true })}`,
-      rating: parseFloat(chance.floating({ min: 0, max: 5, fixed: 1 })),
+      rating: Math.round(Math.random() * 50) / 10,
       description: `${chance.city()}의 ${chance.animal()}과 함께할 수 있는 숙소`,
       price: Math.round(normalRandom(1000, 40000000)),
       pricePerUnit: "M",

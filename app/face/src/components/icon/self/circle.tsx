@@ -16,4 +16,3 @@ const Circle = ({ size }) => {
 };
 
 export default Circle;
-
