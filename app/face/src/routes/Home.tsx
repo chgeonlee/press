@@ -29,19 +29,17 @@ export default function Home() {
   const [priceData, setPriceData] = useState<any>();
   const [scoreData, setScoreData] = useState<any>();
   const isMobile = viewport === ViewportEnum.MOBILE;
-  const categoryGridColumns = 
-    isMobile
-      ? 4
-      : viewport === ViewportEnum.TABLET
-      ? 8
-      : 12;
+  const categoryGridColumns = isMobile
+    ? 4
+    : viewport === ViewportEnum.TABLET
+    ? 8
+    : 12;
 
-  const roomGridColumns =
-  isMobile
-      ? 1
-      : viewport === ViewportEnum.TABLET
-      ? 4
-      : 6;
+  const roomGridColumns = isMobile
+    ? 1
+    : viewport === ViewportEnum.TABLET
+    ? 4
+    : 6;
 
   useEffect(() => {
     const fetched = () => {
@@ -84,7 +82,9 @@ export default function Home() {
   return (
     <Section>
       <div className="home">
-        <div className={classNames("filter-container", isMobile? 'mobile': '')}>
+        <div
+          className={classNames("filter-container", isMobile ? "mobile" : "")}
+        >
           <div className={classNames("panel")}>
             <div>
               <Text> 가격 필터 </Text>

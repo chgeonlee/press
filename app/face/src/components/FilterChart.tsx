@@ -9,9 +9,16 @@ import { createUseStyles } from "react-jss";
 import classNames from "classnames";
 
 const useStyles = createUseStyles((theme: any) => ({
-  container: press.style.relative().edge(1, theme.card).pad(12, 12, 12, 12).add( { margin: '12px 0', borderRadius: 12}),
+  container: press.style
+    .relative()
+    .edge(1, theme.card)
+    .pad(12, 12, 12, 12)
+    .add({ margin: "12px 0", borderRadius: 12 }),
   chart: press.style.spec().pad(12, 12, 0, 12),
-  navigator: press.style.relative().edge(1, theme.edge, 0).add( { margin: '20px 0 36px', top: -6}),
+  navigator: press.style
+    .relative()
+    .edge(1, theme.edge, 0)
+    .add({ margin: "20px 0 36px", top: -6 }),
 }));
 
 const useDomain = (data: [number, number][], unit): [number, number] => {
@@ -149,21 +156,20 @@ const FilterChart = ({
     container.draw();
     resources.room.filter(leftFilterIndex, rightFilterIndex, category);
   }, [leftFilterIndex, rightFilterIndex, rect]);
-  
+
   const handleMouseDown =
     (direction: DirectionEnum) => (e: React.MouseEvent) => {
-
       const handleMouseMove = (e: any) => {
-        
         const v = findClosestValue(
-          Math.min(Math.max(e.clientX - rect.left ), rect.width)
+          Math.min(Math.max(e.clientX - rect.left), rect.width),
         );
-          
+
         if (direction === DirectionEnum.LEFT && v < rightFilterIndex) {
-          setLeftFilterIndex( v );
+          setLeftFilterIndex(v);
         } else if (
           direction === DirectionEnum.RIGHT &&
-          containerRef.current?.scaleX(v) >= containerRef.current?.scaleX(leftFilterIndex + unit)
+          containerRef.current?.scaleX(v) >=
+            containerRef.current?.scaleX(leftFilterIndex + unit)
         ) {
           setRightFilterIndex(v);
         }
@@ -189,7 +195,7 @@ const FilterChart = ({
           onMouseDown={handleMouseDown(DirectionEnum.LEFT)}
         />
         <FilterCircle
-          position={containerRef.current?.scaleX(rightFilterIndex )}
+          position={containerRef.current?.scaleX(rightFilterIndex)}
           onMouseDown={handleMouseDown(DirectionEnum.RIGHT)}
         />
       </div>

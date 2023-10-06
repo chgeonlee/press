@@ -131,7 +131,7 @@ class Container {
       this.filter[nkey].end = end;
       trigger = true;
     }
-    
+
     if (trigger) {
       press.wire.fire(GlobalEventEnum.UPDATED_ROOM_PRICE_FILTER);
     }

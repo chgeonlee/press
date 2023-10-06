@@ -1,7 +1,7 @@
 .home {
   position: relative;
   padding: 0px 12px;
-  >.filter-container {
+  > .filter-container {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     margin: 12px 0;
@@ -10,13 +10,13 @@
       grid-template-columns: repeat(1, 1fr);
     }
   }
-  >.tabs {
+  > .tabs {
     padding: 12px 0px 0px;
     position: sticky;
     top: 0px;
   }
 
-  >.contents {
+  > .contents {
     margin: 36px 0px 48px;
   }
 }
