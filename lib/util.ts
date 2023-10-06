@@ -1,3 +1,5 @@
+import _ from "lodash";
+
 export default class Util {
   private static _instance: Util;
   public static get instance() {

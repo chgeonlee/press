@@ -26,6 +26,7 @@ export default function Home() {
 
   const [currentCategoryId, setCurrentCategoryId] = useState("practice");
   const [data, setData] = useState(undefined);
+  const filterGridColumns =   viewport === ViewportEnum.MOBILE ? 1: 2
 
   const categoryGridColumns =
     viewport === ViewportEnum.MOBILE
@@ -83,8 +84,13 @@ export default function Home() {
   return (
     <Section>
       <div className="home">
-        <div>
+        <div style={{ display:'grid', gridTemplateColumns: `repeat( ${filterGridColumns}, 1fr)`}}>
+          <div style={{ maxWidth:712, width: '100%'}}>
           <PriceChart data={d} />
+          </div>
+          <div style={{ maxWidth:712, width: '100%'}}>
+          <PriceChart data={d} />
+          </div>
         </div>
         <div className={classNames(classes.container, "tabs")}>
           <Collapse columns={categoryGridColumns} rows={1}>
