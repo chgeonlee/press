@@ -26,8 +26,8 @@ export default function Home() {
 
   const [currentCategoryId, setCurrentCategoryId] = useState("practice");
   const [data, setData] = useState(undefined);
-  const filterGridColumns =   viewport === ViewportEnum.MOBILE ? 1: 2
 
+  const filterGridColumns =   viewport === ViewportEnum.MOBILE ? 1: 2;
   const categoryGridColumns =
     viewport === ViewportEnum.MOBILE
       ? 4
@@ -118,15 +118,4 @@ export default function Home() {
       </div>
     </Section>
   );
-}
-function getRandomInt(min, max) {
-  return Math.floor(Math.random() * (max - min + 1)) + min;
-}
-function generateRandomData(pointsCount) {
-  const data = [];
-  for (let i = 0; i < pointsCount; i++) {
-    const y = getRandomInt(0, 100);
-    data.push([i, y]);
-  }
-  return data;
 }
