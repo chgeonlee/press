@@ -13,6 +13,7 @@ import press from "@/lib";
 import Section from "../components/Section";
 import FilterChart from "../components/FilterChart";
 import Text from "../components/Text";
+import GoogleMapComponent from "../components/map/GoogleMap";
 
 const useStyles = createUseStyles((theme: any) => ({
   container: press.style
@@ -22,6 +23,8 @@ const useStyles = createUseStyles((theme: any) => ({
 }));
 
 export default function Home() {
+  const [spots, setSpots] = useState<any[] | null>();
+
   const classes = useStyles();
   const viewport = useViewport();
   const [currentCategoryId, setCurrentCategoryId] = useState("practice");
@@ -54,23 +57,23 @@ export default function Home() {
 
     window.addEventListener(
       "re" + GlobalEventEnum.UPDATED_ROOM_PRICE_FILTER,
-      fetched,
+      fetched
     );
 
     window.addEventListener(
       "re" + GlobalEventEnum.FETCHED_ROOMS_CATEGORY,
-      fetched,
+      fetched
     );
     resources.room.fetchRoomsByCategory(currentCategoryId);
 
     return () => {
       window.removeEventListener(
         "re" + GlobalEventEnum.FETCHED_ROOMS_CATEGORY,
-        fetched,
+        fetched
       );
       window.removeEventListener(
         "re" + GlobalEventEnum.UPDATED_ROOM_PRICE_FILTER,
-        fetched,
+        fetched
       );
     };
   }, [currentCategoryId]);
@@ -85,6 +88,17 @@ export default function Home() {
         <div
           className={classNames("filter-container", isMobile ? "mobile" : "")}
         >
+          <div>
+            <GoogleMapComponent
+            // cbUpdatedMapBounds={(northEast, southWest) => {
+            //   // setBounds({
+            //   //   northEast,
+            //   //   southWest,
+            //   // });
+            // }}
+            // spots={spots}
+            />
+          </div>
           <div className={classNames("panel")}>
             <div>
               <Text> 가격 필터 </Text>
