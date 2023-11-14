@@ -18,9 +18,13 @@ export default function Home() {
   const [currentCategoryId, setCurrentCategoryId] = useState("practice");
   const [isShowMap, setIsShowMap] = useState(false);
   const [data, setData] = useState(undefined);
-  const isMobile = viewport === ViewportEnum.MOBILE;
 
-  const roomGridColumns = isMobile ? 1 : 4;
+  const roomGridColumns =
+    viewport === ViewportEnum.MOBILE
+      ? 1
+      : viewport === ViewportEnum.TABLET
+      ? 2
+      : 4;
 
   useEffect(() => {
     const fetched = () => {
