@@ -29,7 +29,7 @@ export default function useViewport() {
       } else {
         setViewport(ViewportEnum.LAPTOP);
       }
-
+      alert(w);
       return;
     }
     window.addEventListener("resize", handleResize);
