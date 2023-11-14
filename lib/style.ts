@@ -103,8 +103,18 @@ Spec.prototype.align = function (pivot, height = null) {
   return this.add({ textAlign: pivot, lineHeight: topx(h) });
 };
 
-Spec.prototype.pack = function (d) {
-  return this.add({ display: d });
+Spec.prototype.addCircle = function (n) {
+  return this.add({ borderRadius: n });
+};
+
+Spec.prototype.pack = function (d, n, v, h) {
+  this.add({ display: d });
+
+  n && this.add({ flexDirection: n });
+  v && this.add({ justifyContent: v });
+  h && this.add({ alignItems: h });
+
+  return this;
 };
 
 Spec.prototype.back = function (color) {

@@ -1,0 +1,40 @@
+.input-wrapper {
+  flex: 1 0 auto;
+  height: 100%;
+  border: 1px solid #c9c9c9;
+  padding: 4px 12px;
+  border-radius: 36px;
+  display: grid;
+  grid-template-columns: 24px 1fr;
+  gap: 8px;
+  z-index: 10;
+  position: relative;
+  max-width: 420px;
+
+  > .icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  > .input {
+    margin: 0;
+    width: calc(100% - 36px);
+    padding: 8px 0px;
+    border: none;
+    background-color: inherit;
+  }
+
+  > .map-search-input-modal {
+    position: absolute;
+    top: 52px;
+    width: 100%;
+    z-index: 1200;
+    background-color: white;
+    height: 312px;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 24px 0px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}

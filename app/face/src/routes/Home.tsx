@@ -1,58 +1,30 @@
-import IconLabel from "../components/IconLabel";
 import Grid from "../components/Grid";
 import useViewport, { ViewportEnum } from "../hooks/useViewport";
-import { Collapse } from "../components/Collapse";
 import ItemCard from "../components/ItemCard";
 import { createUseStyles, useTheme } from "react-jss";
-import classNames from "classnames";
 import { useEffect, useState } from "react";
 import { GlobalEventEnum } from "../constants";
 import resources from "../resources";
-import { CATEGORIES } from "../fixture";
+import { SPOTS } from "../fixture";
 import press from "@/lib";
 import Section from "../components/Section";
-import FilterChart from "../components/FilterChart";
-import Text from "../components/Text";
-import GoogleMapComponent from "../components/map/GoogleMap";
-
-const useStyles = createUseStyles((theme: any) => ({
-  container: press.style
-    .relative()
-    .back(theme.background + "cc")
-    .color(theme.text),
-}));
+import SpotMap from "../components/map/SpotMap";
+import classNames from "classnames";
+import { PlainButton } from "../components/button/PlainButton";
+import Text, { TextSizeEnum, TextWeightEnum } from "../components/Text";
 
 export default function Home() {
-  const [spots, setSpots] = useState<any[] | null>();
-
-  const classes = useStyles();
   const viewport = useViewport();
   const [currentCategoryId, setCurrentCategoryId] = useState("practice");
+  const [isShowMap, setIsShowMap] = useState(false);
   const [data, setData] = useState(undefined);
-  const [priceData, setPriceData] = useState<any>();
-  const [scoreData, setScoreData] = useState<any>();
   const isMobile = viewport === ViewportEnum.MOBILE;
-  const categoryGridColumns = isMobile
-    ? 4
-    : viewport === ViewportEnum.TABLET
-    ? 8
-    : 12;
 
-  const roomGridColumns = isMobile
-    ? 1
-    : viewport === ViewportEnum.TABLET
-    ? 4
-    : 6;
+  const roomGridColumns = isMobile ? 1 : 4;
 
   useEffect(() => {
     const fetched = () => {
       setData([...resources.room.loadFiltered(currentCategoryId)]);
-      const d = resources.room.stat(currentCategoryId)
-        ? resources.room.stat(currentCategoryId)
-        : null;
-
-      setScoreData(d.rating);
-      setPriceData(d.price);
     };
 
     window.addEventListener(
@@ -85,41 +57,38 @@ export default function Home() {
   return (
     <Section>
       <div className="home">
-        <div
-          className={classNames("filter-container", isMobile ? "mobile" : "")}
-        >
-          <div>
-            <GoogleMapComponent
-            // cbUpdatedMapBounds={(northEast, southWest) => {
-            //   // setBounds({
-            //   //   northEast,
-            //   //   southWest,
-            //   // });
-            // }}
-            // spots={spots}
+        <div className={classNames("filter-bar")}>
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: 8,
+              padding: "0 4px",
+            }}
+          >
+            <img
+              src={"https://simpleicon.com/wp-content/uploads/map-5.svg"}
+              width={16}
+              height={16}
             />
-          </div>
-          <div className={classNames("panel")}>
-            <div>
-              <Text> 가격 필터 </Text>
+            <div style={{ marginTop: 2 }}>
+              <Text size={TextSizeEnum.LG} weight={TextWeightEnum.MEDIUM}>
+                Public
+              </Text>
             </div>
-            {priceData && <FilterChart data={priceData} category="price" />}
           </div>
-          <div className={classNames("panel")}>
-            <div>
-              <Text> 별점 필터 </Text>
-            </div>
-            {scoreData && (
-              <FilterChart
-                data={scoreData}
-                category="rating"
-                unit={1}
-                barWidth={1}
-              />
-            )}
-          </div>
+          <PlainButton
+            value="Show map"
+            fnClick={() => {
+              setIsShowMap((p) => !p);
+            }}
+          />
         </div>
-        <div className={classNames(classes.container, "tabs")}>
+        <div className={classNames("map-wrapper", isShowMap ? "visible" : "")}>
+          <SpotMap center={{ lat: 37.5665, lng: 126.978 }} spots={SPOTS} />
+        </div>
+        {/*
+        <div className={classNames(classes.container, "tabs", "sticky")}>
           <Collapse columns={categoryGridColumns} rows={1}>
             {CATEGORIES.data.map((data, index) => {
               return (
@@ -134,7 +103,8 @@ export default function Home() {
               );
             })}
           </Collapse>
-        </div>
+        </div> */}
+
         <div className="contents">
           <Grid columns={roomGridColumns}>
             {data.map((data, index) => {

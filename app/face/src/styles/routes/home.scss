@@ -1,22 +1,26 @@
 .home {
   position: relative;
-  padding: 0px 12px;
-  > .filter-container {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    margin: 12px 0;
-    gap: 12px;
-    &.mobile {
-      grid-template-columns: repeat(1, 1fr);
-    }
+  width: 100%;
+
+  > .filter-bar {
+    padding: 12px 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
   }
-  > .tabs {
-    padding: 12px 0px 0px;
-    position: sticky;
-    top: 0px;
+  .map-wrapper {
+    overflow: hidden;
+    max-height: 0; /* 초기 높이 설정 */
+    transition: max-height 0.5s ease-out; /* 애니메이션 효과 적용 */
+  }
+
+  .map-wrapper.visible {
+    max-height: 1440px; /* 최대 높이 설정, 실제 필요한 높이로 조절 */
+    /* transition 속성은 상위 클래스에서 이미 정의되어 있으므로 재정의할 필요 없음 */
   }
 
   > .contents {
-    margin: 36px 0px 48px;
+    position: relative;
   }
 }

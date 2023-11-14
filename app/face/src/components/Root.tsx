@@ -2,7 +2,6 @@ import { Outlet } from "react-router-dom";
 import Header from "./Header";
 import classNames from "classnames";
 import { createUseStyles } from "react-jss";
-import Section from "./Section";
 import press from "@/lib";
 
 const useStyles = createUseStyles((theme: any) => ({
@@ -14,9 +13,7 @@ export default function Root() {
 
   return (
     <div className={classNames(classes.container, "root")}>
-      <Section>
-        <Header />
-      </Section>
+      <Header />
       <Outlet />
     </div>
   );

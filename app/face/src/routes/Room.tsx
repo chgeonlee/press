@@ -1,13 +1,12 @@
-import press from "@/lib";
-import { useParams } from "react-router-dom";
 import Masonry from "../components/Masonry";
 import resources from "../resources";
 import { useEffect, useRef, useState } from "react";
 import { GlobalEventEnum } from "../constants";
-import Text, { TextSizeEnum } from "../components/Text";
+import Text, { TextSizeEnum, TextWeightEnum } from "../components/Text";
 import Section from "../components/Section";
 import useViewport, { ViewportEnum } from "../hooks/useViewport";
 import classNames from "classnames";
+import { useParams } from "react-router-dom";
 
 export default function Room() {
   const { id } = useParams();
@@ -30,26 +29,10 @@ export default function Room() {
     return () => {
       window.removeEventListener(
         "re" + GlobalEventEnum.FETCHED_ROOM_BY_ID,
-        record,
+        record
       );
     };
   }, []);
-
-  useEffect(() => {
-    const resize = () => {
-      if (ref.current) {
-        const rect = ref.current.getBoundingClientRect();
-        // chartRef.current.updateDimensions(rect.width, rect.height);
-      }
-    };
-
-    window.addEventListener("resize", resize);
-    resize();
-
-    return () => {
-      window.removeEventListener("resize", resize);
-    };
-  }, [data, ref.current]);
 
   if (data == undefined) {
     return <div>loading</div>;
@@ -62,15 +45,15 @@ export default function Room() {
       <div
         className={classNames(
           "room",
-          viewport === ViewportEnum.MOBILE ? "mobile" : "",
+          viewport === ViewportEnum.MOBILE ? "mobile" : ""
         )}
       >
         <div className="room-meta">
           <div className="room-header">
-            <Text size={TextSizeEnum.XL} weight={600}>
+            <Text size={TextSizeEnum.XL} weight={TextWeightEnum.BOLD}>
               {meta.title}
             </Text>
-            <Text size={TextSizeEnum.LG} weight={300}>
+            <Text size={TextSizeEnum.LG} weight={TextWeightEnum.MEDIUM}>
               {meta.description}
             </Text>
           </div>

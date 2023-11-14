@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
-import useViewport, { ViewportEnum } from "../hooks/useViewport";
-import Text from "./Text";
+import useViewport, { ViewportEnum } from "../../hooks/useViewport";
+import Text from "../Text";
 
 const IconLabel = ({
   iconElement,
