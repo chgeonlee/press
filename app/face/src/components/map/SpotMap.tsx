@@ -4,7 +4,7 @@ import MapFactory from "./factory";
 import Text, { TextSizeEnum, TextWeightEnum } from "../Text";
 import { PlainButton } from "../button/PlainButton";
 import useViewport, { ViewportEnum } from "../../hooks/useViewport";
-
+import { useOutsideClick } from "../../hooks/useOutsideClick";
 declare global {
   interface Window {
     initSpotMap: () => void;
@@ -49,12 +49,13 @@ const SpotMap = ({ center, spots }: ISpotMapProps) => {
     )) as google.maps.MarkerLibrary;
 
     new MarkerClusterer({
-      markers: spots.map((spot) => {
+      markers: spots.map((spot, ndx) => {
         const component = new AdvancedMarkerElement({
           map: mapRef.current,
           position: spot.geolocation,
           content: MapFactory.spotMapMarkerContent(spot.imgSrc),
         });
+
         const el = component.element as HTMLElement;
         const handler = (e: MouseEvent) => {
           setSelectedSpot(spot);
@@ -91,22 +92,31 @@ const SpotMap = ({ center, spots }: ISpotMapProps) => {
    * comment
    */
   useEffect(() => {
-    const script = document.createElement("script");
-    const apiKey = "AIzaSyA7xnRZgDTOCAUgqpgmfGpwq7xTMUFww1I";
-    script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&callback=initSpotMap&libraries=marker&v=beta`;
-    console.log(script.src);
-    script.defer = true;
-    document.body.appendChild(script);
-
     function handleClickOutside(event) {
-      if (componentRef) {
-        setSelectedSpot(null); // 모달을 닫습니다.
+      setSelectedSpot(null);
+    }
+
+    if (window.google) {
+      window.initSpotMap();
+    } else {
+      const script = document.createElement("script");
+      const apiKey = "AIzaSyA7xnRZgDTOCAUgqpgmfGpwq7xTMUFww1I";
+      script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&callback=initSpotMap&libraries=marker&v=beta`;
+      script.defer = true;
+      document.body.appendChild(script);
+
+      if (componentRef.current) {
+        componentRef.current.addEventListener("click", handleClickOutside);
       }
     }
 
     return () => {
-      document.body.removeChild(script);
+      //document.body.removeChild(script);
       markersRef.current = [];
+
+      if (componentRef.current) {
+        componentRef.current.removeEventListener("click", handleClickOutside);
+      }
 
       if (mapRef.current) {
         google.maps.event.clearInstanceListeners(mapRef.current);

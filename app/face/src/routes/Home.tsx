@@ -72,7 +72,9 @@ export default function Home() {
             }}
           >
             <img
-              src={"https://simpleicon.com/wp-content/uploads/map-5.svg"}
+              src={
+                "https://www.reshot.com/preview-assets/icons/FSLV43QKM9/map-pointer-FSLV43QKM9.svg"
+              }
               width={16}
               height={16}
             />

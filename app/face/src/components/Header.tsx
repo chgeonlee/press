@@ -1,23 +1,22 @@
-import { FaMoon, FaUserCircle } from "react-icons/fa";
-import { createUseStyles } from "react-jss";
+import { FaUserCircle } from "react-icons/fa";
 import SelfLogo from "./icon/self/logo";
 import SelfMenu from "./icon/self/menu";
-import useDarkMode from "../hooks/useDarkMode";
 import { IconButton } from "./button/IconButton";
 import Section from "./Section";
 import MapSearchInput from "./search/MapSearchInput";
+import useViewport, { ViewportEnum } from "../hooks/useViewport";
 
 const FIXED_ICON_SIZE = 24;
 
 const Header = () => {
-  const { darkModeStatus, setDarkModeStatus } = useDarkMode();
+  const viewport = useViewport();
 
   return (
     <div className="header-wrapper">
       <Section>
         <div className="header">
           <SelfLogo />
-          <MapSearchInput />
+          {viewport != ViewportEnum.MOBILE && <MapSearchInput />}
           <div className="setting">
             {/* <IconButton
               icon={<FaMoon size={18} />}
@@ -37,6 +36,11 @@ const Header = () => {
             />
           </div>
         </div>
+        {viewport == ViewportEnum.MOBILE && (
+          <div style={{ margin: "12px 0", width: "100%" }}>
+            <MapSearchInput />
+          </div>
+        )}
       </Section>
     </div>
   );
