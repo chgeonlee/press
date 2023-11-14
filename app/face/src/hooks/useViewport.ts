@@ -24,12 +24,11 @@ export default function useViewport() {
       const { width: w } = press.device.properties;
       if (w <= 612) {
         setViewport(ViewportEnum.MOBILE);
-      } else if (w <= 1024) {
+      } else if (w <= 1440) {
         setViewport(ViewportEnum.TABLET);
       } else {
         setViewport(ViewportEnum.LAPTOP);
       }
-      alert(w);
       return;
     }
     window.addEventListener("resize", handleResize);
