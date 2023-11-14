@@ -34,6 +34,23 @@ const SpotMap = ({ center, spots }: ISpotMapProps) => {
   const viewport = useViewport();
   const [selectedSpot, setSelectedSpot] = useState<ISpotProps>(null);
   // google map 초기화 콜백함수
+  const TEMP = [
+    "여기 불났음!!",
+    "비상 초비상!!!!",
+    "심심하다",
+    "집에 보내주겠니",
+    "배고픈데 밥먹을곳을 찾습니다.",
+    "춘식이춘식이",
+    "퇴근하고싶다.",
+    "여긴 어디 나는 누구 너는 누구 허허허허허",
+    "고구마 팔아요 감자도 팔아요",
+    "치킨 팟 구함",
+    "테스트케이스인데 너무쓰는거 아닌가",
+    "집나간 춘식이 찾아요",
+    "돌아와 춘식아",
+    "고구마 사줄게 춘식아",
+    "여기서 춘식이 봄",
+  ];
   window.initSpotMap = async () => {
     // map 의 min, max는 map의 type에 따라 달라질수 있다.
     mapRef.current = new google.maps.Map(componentRef.current, {
@@ -53,7 +70,7 @@ const SpotMap = ({ center, spots }: ISpotMapProps) => {
         const component = new AdvancedMarkerElement({
           map: mapRef.current,
           position: spot.geolocation,
-          content: MapFactory.spotMapMarkerContent(spot.imgSrc),
+          content: MapFactory.spotMapMarkerContent(spot.imgSrc, TEMP[ndx % 6]),
         });
 
         const el = component.element as HTMLElement;

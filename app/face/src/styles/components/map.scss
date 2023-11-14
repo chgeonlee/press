@@ -57,6 +57,37 @@
       object-fit: cover; /* 이미지 비율을 유지하면서 요소에 맞춤 */
     }
 
+    .bubble-wrapper {
+      position: absolute; /* 절대 위치 설정 */
+      top: -50px; /* spot-map-marker 위로 위치 조정 */
+      left: 50%;
+      transform: translateX(-50%); /* 중앙 정렬 */
+      width: 100px; /* bubble의 너비 설정 */
+    }
+
+    .bubble:after {
+      content: "";
+      position: absolute;
+      border-style: solid;
+      border-width: 10px 10px 0;
+      border-color: #ffffff transparent;
+      display: block;
+      width: 0;
+      z-index: 1;
+      bottom: -10px;
+      left: 50%;
+      margin-left: -10px;
+      filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2)); /* 그림자 추가 */
+    }
+
+    .bubble {
+      background-color: white;
+      padding: 12px 0;
+      text-align: center; /* 텍스트 중앙 정렬 */
+      border-radius: 10px; /* 말풍선 모양 */
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* 그림자 추가 */
+    }
+
     .spot-map-marker::after {
       content: "";
       position: absolute;
