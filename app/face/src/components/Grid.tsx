@@ -26,5 +26,5 @@ export default Grid;
 
 Grid.defaultProps = {
   rowGap: 24,
-  columnGap: 18,
+  columnGap: 24,
 };

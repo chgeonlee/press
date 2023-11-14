@@ -22,7 +22,7 @@ const ItemCard = ({ item }: IItemCardProps) => {
     const resize = () => {
       if (ref.current) {
         const rect = ref.current.getBoundingClientRect();
-        ref.current.style.height = rect.width * 1.13 + "px";
+        ref.current.style.height = rect.width * 0.88 + "px";
       }
     };
     window.addEventListener("resize", resize);
