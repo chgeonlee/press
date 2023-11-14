@@ -32,12 +32,10 @@ export default function useViewport() {
 
       return;
     }
+    window.addEventListener("resize", handleResize);
     handleResize();
 
-    window.addEventListener("resize", handleResize);
-
     return () => {
-      console.log("remmove");
       window.removeEventListener("resize", handleResize);
     };
   }, []);
