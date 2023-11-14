@@ -2,7 +2,7 @@ import Grid from "../components/Grid";
 import useViewport, { ViewportEnum } from "../hooks/useViewport";
 import ItemCard from "../components/ItemCard";
 import { createUseStyles, useTheme } from "react-jss";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { GlobalEventEnum } from "../constants";
 import resources from "../resources";
 import { SPOTS } from "../fixture";
@@ -19,12 +19,13 @@ export default function Home() {
   const [isShowMap, setIsShowMap] = useState(false);
   const [data, setData] = useState(undefined);
 
-  const roomGridColumns =
-    viewport === ViewportEnum.MOBILE
+  const getGridColumns = useCallback(() => {
+    return viewport === ViewportEnum.MOBILE
       ? 1
       : viewport === ViewportEnum.TABLET
       ? 3
       : 4;
+  }, [viewport]);
 
   useEffect(() => {
     const fetched = () => {
@@ -110,7 +111,7 @@ export default function Home() {
         </div> */}
 
         <div className="contents">
-          <Grid columns={roomGridColumns}>
+          <Grid columns={getGridColumns()}>
             {data.map((data, index) => {
               return <ItemCard key={index} item={data.provisonal.meta} />;
             })}
