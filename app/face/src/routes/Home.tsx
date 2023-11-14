@@ -1,12 +1,10 @@
 import Grid from "../components/Grid";
 import useViewport, { ViewportEnum } from "../hooks/useViewport";
 import ItemCard from "../components/ItemCard";
-import { createUseStyles, useTheme } from "react-jss";
 import { useCallback, useEffect, useState } from "react";
 import { GlobalEventEnum } from "../constants";
 import resources from "../resources";
 import { SPOTS } from "../fixture";
-import press from "@/lib";
 import Section from "../components/Section";
 import SpotMap from "../components/map/SpotMap";
 import classNames from "classnames";
@@ -24,7 +22,9 @@ export default function Home() {
       ? 1
       : viewport === ViewportEnum.TABLET
       ? 3
-      : 4;
+      : viewport === ViewportEnum.LAPTOP
+      ? 4
+      : 6;
   }, [viewport]);
 
   useEffect(() => {

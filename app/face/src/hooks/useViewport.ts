@@ -5,6 +5,7 @@ export enum ViewportEnum {
   MOBILE,
   TABLET,
   LAPTOP,
+  WIDE,
 }
 
 /**
@@ -24,10 +25,12 @@ export default function useViewport() {
       const { width: w } = press.device.properties;
       if (w <= 612) {
         setViewport(ViewportEnum.MOBILE);
-      } else if (w <= 1440) {
+      } else if (w <= 1080) {
         setViewport(ViewportEnum.TABLET);
-      } else {
+      } else if (w <= 1800) {
         setViewport(ViewportEnum.LAPTOP);
+      } else {
+        setViewport(ViewportEnum.WIDE);
       }
       return;
     }
