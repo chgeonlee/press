@@ -60,7 +60,7 @@ const SpotMap = ({ center, spots }: ISpotMapProps) => {
           setSelectedSpot(spot);
           e.stopPropagation();
         };
-        ["click"].forEach((e) => {
+        ["click", "touchstart"].forEach((e) => {
           el.addEventListener(e, handler);
         });
 
