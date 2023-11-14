@@ -23,7 +23,7 @@ export default function Home() {
     viewport === ViewportEnum.MOBILE
       ? 1
       : viewport === ViewportEnum.TABLET
-      ? 2
+      ? 3
       : 4;
 
   useEffect(() => {

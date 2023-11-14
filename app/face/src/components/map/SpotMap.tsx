@@ -104,17 +104,12 @@ const SpotMap = ({ center, spots }: ISpotMapProps) => {
       }
     }
 
-    componentRef.current.addEventListener("mousedown", handleClickOutside);
-
     return () => {
-      componentRef.current.removeEventListener("mousedown", handleClickOutside);
-
       document.body.removeChild(script);
       markersRef.current = [];
 
       if (mapRef.current) {
         google.maps.event.clearInstanceListeners(mapRef.current);
-        componentRef.current.innerHTML = "";
         mapRef.current = null;
       }
     };
