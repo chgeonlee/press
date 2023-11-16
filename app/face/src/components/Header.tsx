@@ -22,18 +22,22 @@ const Header = () => {
               icon={<FaMoon size={18} />}
               fnClick={() => setDarkModeStatus(!darkModeStatus)}
             /> */}
-            <IconButton
-              icon={<SelfMenu size={FIXED_ICON_SIZE} />}
-              fnClick={() => {
-                confirm("미구현");
-              }}
-            />
-            <IconButton
-              icon={<FaUserCircle size={FIXED_ICON_SIZE} />}
-              fnClick={() => {
-                confirm("미구현");
-              }}
-            />
+            <div>
+              <IconButton
+                icon={<SelfMenu size={FIXED_ICON_SIZE} />}
+                fnClick={() => {
+                  confirm("미구현");
+                }}
+              />
+            </div>
+            <div>
+              <IconButton
+                icon={<FaUserCircle size={FIXED_ICON_SIZE} />}
+                fnClick={() => {
+                  confirm("미구현");
+                }}
+              />
+            </div>
           </div>
         </div>
         {viewport == ViewportEnum.MOBILE && (

@@ -63,6 +63,7 @@
       left: 50%;
       transform: translateX(-50%); /* 중앙 정렬 */
       width: 100px; /* bubble의 너비 설정 */
+      z-index: 1000;
     }
 
     .bubble:after {
@@ -73,7 +74,7 @@
       border-color: #ffffff transparent;
       display: block;
       width: 0;
-      z-index: 1;
+      z-index: 10000;
       bottom: -10px;
       left: 50%;
       margin-left: -10px;

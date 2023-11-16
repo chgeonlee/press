@@ -20,7 +20,7 @@ const SelfMenu = ({ size }) => {
     .close().trail;
 
   return (
-    <svg width={size} height={size}>
+    <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`}>
       <path
         d={d}
         stroke={darkModeStatus ? press.palette.white : press.palette.black}

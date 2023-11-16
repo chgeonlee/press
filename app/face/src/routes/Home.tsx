@@ -78,7 +78,7 @@ export default function Home() {
               width={16}
               height={16}
             />
-            <div style={{ marginTop: 2 }}>
+            <div>
               <Text size={TextSizeEnum.LG} weight={TextWeightEnum.MEDIUM}>
                 Public
               </Text>
@@ -94,24 +94,6 @@ export default function Home() {
         <div className={classNames("map-wrapper", isShowMap ? "visible" : "")}>
           <SpotMap center={{ lat: 37.5665, lng: 126.978 }} spots={SPOTS} />
         </div>
-        {/*
-        <div className={classNames(classes.container, "tabs", "sticky")}>
-          <Collapse columns={categoryGridColumns} rows={1}>
-            {CATEGORIES.data.map((data, index) => {
-              return (
-                <IconLabel
-                  key={index}
-                  iconElement={data.icon}
-                  name={data.name}
-                  fnClick={() => {
-                    setCurrentCategoryId(data.id);
-                  }}
-                />
-              );
-            })}
-          </Collapse>
-        </div> */}
-
         <div className="contents">
           <Grid columns={getGridColumns()}>
             {data.map((data, index) => {

@@ -53,12 +53,12 @@ const SelfLogo = ({ size }) => {
   const w = u + g;
 
   return (
-    <div>
+    <div style={{ marginLeft: 0 }}>
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width="100"
         height="45"
-        viewBox="0 0 318 75"
+        viewBox="0 0 318 65"
         fill="none"
       >
         <path

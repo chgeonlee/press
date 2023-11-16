@@ -14,9 +14,10 @@ export enum TextSizeEnum {
 }
 
 export enum TextWeightEnum {
-  BOLD = 600,
+  BOLDER = 800,
+  BOLD = 700,
   MEDIUM = 400,
-  THIN = 100,
+  THIN = 300,
 }
 
 export interface ITextProps {
