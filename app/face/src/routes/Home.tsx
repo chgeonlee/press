@@ -10,6 +10,7 @@ import SpotMap from "../components/map/SpotMap";
 import classNames from "classnames";
 import { PlainButton } from "../components/button/PlainButton";
 import Text, { TextSizeEnum, TextWeightEnum } from "../components/Text";
+import _ from "lodash";
 
 const DEFAULT_MAP_SPEC = {
   fixture: true,
@@ -171,12 +172,12 @@ export default function Home() {
               spec={DEFAULT_MAP_SPEC}
               center={center}
               spots={SPOTS}
-              onChange={(lat, lng) => {
+              onChange={_.debounce((lat, lng) => {
                 setCenter({
                   lat,
                   lng,
                 });
-              }}
+              }, 300)}
             />
           )}
         </div>
