@@ -23,7 +23,7 @@ export default function useViewport() {
     }
 
     function handleViewport() {
-      const { width: w } = press.device.properties.outer;
+      const { width: w } = press.device.properties;
       if (w <= 612) {
         setViewport(ViewportEnum.MOBILE);
       } else if (w <= 1080) {

@@ -1,23 +1,31 @@
 import _ from "lodash";
+import { useEffect, useState } from "react";
+import press from "@/lib";
 
 const Device = () => {
-  //window.screen
-  //@ts-ignore
-  const n = window.screen.msOrientation ? "moz..." : "no";
-  //@ts-ignore
-  const u = window.orientation ? window.orientation.type : "nonono";
+  const [width, setWidth] = useState(0);
+  const [height, setHeight] = useState(0);
+
+  useEffect(() => {
+    const handler = () => {
+      const { width: w, height: h } = press.device.properties;
+      setWidth(w);
+      setHeight(h);
+    };
+    let c = "orientationchange" in window;
+    let t = c ? "orientationchange" : "resize";
+    window.addEventListener(t, handler);
+    handler();
+
+    return () => {
+      window.removeEventListener(t, handler);
+    };
+  }, []);
+
   return (
     <div>
-      <div> userAgent: {window.navigator.userAgent}</div>
-      <div>
-        window.screen:{" "}
-        {window.screen
-          ? window.screen.orientation
-            ? window.screen.orientation.type
-            : "오리엔테이션이 존재하지 않음"
-          : "screen이 존재하지 않음"}
-        {n} /// {u}
-      </div>
+      <div> width: {width}</div>
+      <div> height: {height}</div>
     </div>
   );
 };
