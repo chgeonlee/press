@@ -14,9 +14,9 @@ import Text, { TextSizeEnum, TextWeightEnum } from "../components/Text";
 const DEFAULT_MAP_SPEC = {
   fixture: true,
   zoomInfo: {
-    zoom: 15,
-    minZoom: 9,
-    maxZoom: 17,
+    zoom: 10,
+    minZoom: 4,
+    maxZoom: 12,
   },
 };
 
@@ -33,6 +33,14 @@ export default function Home() {
   const [geolocation, setGeolocation] = useState<any>(DEFAULT_MAP_SPEC);
   const [center, setCenter] = useState<any>();
   const [address, setAddress] = useState<any>();
+  function isMobile() {
+    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+      navigator.userAgent
+    );
+  }
+
+  const mob = isMobile();
+
   const getGridColumns = useCallback(() => {
     return viewport === ViewportEnum.MOBILE
       ? 1
@@ -55,17 +63,23 @@ export default function Home() {
     };
     const fail = () => {
       setGeolocation(DEFAULT_MAP_CENTER);
+      setCenter(DEFAULT_MAP_CENTER);
     };
 
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(succ, fail);
+    if (mob == true) {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(succ, fail);
+      } else {
+        fail();
+      }
     } else {
       fail();
     }
   }, []);
 
   useEffect(() => {
-    if (center) {
+    if (center && mob) {
+      console.log("--->");
       const { lat, lng } = center;
       var geocodingAPI =
         "https://maps.googleapis.com/maps/api/geocode/json?latlng=" +
