@@ -65,6 +65,7 @@ export default class Device extends Configure {
       return this._stat;
     }
     var s = window.navigator.userAgent.toLowerCase();
+
     var a;
     if (s.match(/ipad|iphone|ipod/i)) {
       a = this._agent.IOS;
@@ -111,6 +112,8 @@ export default class Device extends Configure {
   public get properties() {
     let vert = this.portrait();
     const c = this.stat.cover;
+    console.log(".1111..", c.upper(), c.lower());
+
     return {
       portrait: vert,
       outer: (function () {
@@ -120,6 +123,7 @@ export default class Device extends Configure {
             height: c.upper(),
           };
         } else {
+          console.log("...", c.upper(), c.lower());
           return { width: c.upper(), height: c.lower() };
         }
       })(),

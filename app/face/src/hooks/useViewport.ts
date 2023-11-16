@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import press from "@/lib";
+import _ from "lodash";
 
 export enum ViewportEnum {
   MOBILE,
@@ -21,7 +22,7 @@ export default function useViewport() {
       return;
     }
 
-    function handleResize() {
+    function handleViewport() {
       const { width: w } = press.device.properties.outer;
       if (w <= 612) {
         setViewport(ViewportEnum.MOBILE);
@@ -32,15 +33,19 @@ export default function useViewport() {
       } else {
         setViewport(ViewportEnum.WIDE);
       }
+
+      console.log("ww", w);
       return;
     }
+
     let c = "orientationchange" in window;
     let t = c ? "orientationchange" : "resize";
-    window.addEventListener(t, handleResize);
-    handleResize();
+    window.addEventListener(t, handleViewport);
+
+    handleViewport();
 
     return () => {
-      window.removeEventListener(t, handleResize);
+      window.removeEventListener(t, handleViewport);
     };
   }, []);
 

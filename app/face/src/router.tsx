@@ -3,6 +3,7 @@ import Root from "./components/Root";
 import Users from "./routes/Users";
 import Home from "./routes/Home";
 import Room from "./routes/Room";
+import Device from "./routes/Device";
 
 const router = createBrowserRouter([
   {
@@ -26,6 +27,10 @@ const router = createBrowserRouter([
   {
     path: "/room/:id",
     element: <Room />,
+  },
+  {
+    path: "/device",
+    element: <Device />,
   },
 ]);
 
