@@ -35,7 +35,8 @@ export default function useViewport() {
       return;
     }
     window.addEventListener("resize", handleResize);
-    screen.orientation.addEventListener("change", handleResize);
+    screen.orientation.onchange = handleResize;
+
     handleResize();
 
     return () => {
