@@ -34,11 +34,13 @@ export default function useViewport() {
       }
       return;
     }
-    window.addEventListener("resize", handleResize);
+    let c = "orientationchange" in window;
+    let t = c ? "orientationchange" : "resize";
+    window.addEventListener(t, handleResize);
     handleResize();
 
     return () => {
-      window.removeEventListener("resize", handleResize);
+      window.removeEventListener(t, handleResize);
     };
   }, []);
 
