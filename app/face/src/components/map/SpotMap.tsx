@@ -51,6 +51,7 @@ const SpotMap = ({ center, spots }: ISpotMapProps) => {
     "고구마 사줄게 춘식아",
     "여기서 춘식이 봄",
   ];
+
   window.initSpotMap = async () => {
     // map 의 min, max는 map의 type에 따라 달라질수 있다.
     mapRef.current = new google.maps.Map(componentRef.current, {
@@ -59,7 +60,8 @@ const SpotMap = ({ center, spots }: ISpotMapProps) => {
       center: center,
       mapId: "5fb94fb03365ceb1",
       disableDefaultUI: true, // 이 줄을 추가하여 기본 UI를 비활성화합니다.
-      gestureHandling: "cooperative",
+      gestureHandling:
+        viewport == ViewportEnum.MOBILE ? "greedy" : "cooperative",
     });
     const { AdvancedMarkerElement } = (await google.maps.importLibrary(
       "marker"

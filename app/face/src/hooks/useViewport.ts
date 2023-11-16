@@ -35,10 +35,12 @@ export default function useViewport() {
       return;
     }
     window.addEventListener("resize", handleResize);
+    screen.orientation.addEventListener("change", handleResize);
     handleResize();
 
     return () => {
       window.removeEventListener("resize", handleResize);
+      screen.orientation.removeEventListener("change", handleResize);
     };
   }, []);
 
