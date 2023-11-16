@@ -80,7 +80,7 @@ export default function Home() {
             />
             <div>
               <Text size={TextSizeEnum.LG} weight={TextWeightEnum.MEDIUM}>
-                Public {viewport}
+                Public
               </Text>
             </div>
           </div>

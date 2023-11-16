@@ -112,6 +112,7 @@ export default class Device extends Configure {
     let vert = this.portrait();
     const c = this.stat.cover;
     return {
+      portrait: vert,
       outer: (function () {
         if (vert) {
           return {
@@ -121,6 +122,27 @@ export default class Device extends Configure {
         } else {
           return { width: c.upper(), height: c.lower() };
         }
+      })(),
+      inner: (function () {
+        var w = window.innerWidth;
+        var h = window.innerHeight;
+        var z = c.lower() < Math.min(w, h) && c.upper() < Math.max(w, h);
+        if (z) {
+          var r = 1;
+          if (vert) {
+            r = c.lower() / w;
+          } else {
+            r = c.upper() / w;
+          }
+          return { width: w * r, height: h * r };
+        } else {
+          return { width: w, height: h };
+        }
+      })(),
+      client: (function () {
+        var w = document.body.clientWidth;
+        var h = document.body.clientHeight;
+        return { width: w, height: h };
       })(),
     };
   }
