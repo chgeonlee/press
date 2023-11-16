@@ -6,7 +6,8 @@
   position: sticky;
   top: 0;
   z-index: 1000;
-  background-color: #ffffff88;
+  background-color: #ffffffaa;
+  backdrop-filter: blur(6px);
 
   .header {
     display: flex;
