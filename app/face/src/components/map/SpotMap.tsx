@@ -4,7 +4,6 @@ import MapFactory from "./factory";
 import Text, { TextSizeEnum, TextWeightEnum } from "../Text";
 import { PlainButton } from "../button/PlainButton";
 import useViewport, { ViewportEnum } from "../../hooks/useViewport";
-import { useOutsideClick } from "../../hooks/useOutsideClick";
 declare global {
   interface Window {
     initSpotMap: () => void;
@@ -19,14 +18,22 @@ interface ISpotProps {
 }
 
 interface ISpotMapProps {
+  spec: {
+    zoomInfo: {
+      zoom?: number;
+      maxZoom?: number;
+      minZoom?: number;
+    };
+  };
   center: {
     lat: number;
     lng: number;
   };
   spots: ISpotProps[];
+  onChange: (lat: number, lng: number) => void;
 }
 
-const SpotMap = ({ center, spots }: ISpotMapProps) => {
+const SpotMap = ({ spec, center, spots, onChange }: ISpotMapProps) => {
   const wrapperRef = useRef<HTMLDivElement>(null);
   const componentRef = useRef<HTMLDivElement>(null);
   const mapRef = useRef<google.maps.Map>(null);
@@ -55,8 +62,7 @@ const SpotMap = ({ center, spots }: ISpotMapProps) => {
   window.initSpotMap = async () => {
     // map 의 min, max는 map의 type에 따라 달라질수 있다.
     mapRef.current = new google.maps.Map(componentRef.current, {
-      zoom: 15,
-      minZoom: 9,
+      ...spec.zoomInfo,
       center: center,
       mapId: "5fb94fb03365ceb1",
       disableDefaultUI: true, // 이 줄을 추가하여 기본 UI를 비활성화합니다.
@@ -68,6 +74,11 @@ const SpotMap = ({ center, spots }: ISpotMapProps) => {
     const { AdvancedMarkerElement } = (await google.maps.importLibrary(
       "marker"
     )) as google.maps.MarkerLibrary;
+
+    mapRef.current.addListener("center_changed", () => {
+      const newCenter = mapRef.current.getCenter();
+      onChange(newCenter.lat(), newCenter.lng());
+    });
 
     new MarkerClusterer({
       markers: spots.map((spot, ndx) => {

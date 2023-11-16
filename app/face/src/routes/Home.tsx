@@ -11,13 +11,28 @@ import classNames from "classnames";
 import { PlainButton } from "../components/button/PlainButton";
 import Text, { TextSizeEnum, TextWeightEnum } from "../components/Text";
 
+const DEFAULT_MAP_SPEC = {
+  fixture: true,
+  zoomInfo: {
+    zoom: 15,
+    minZoom: 9,
+    maxZoom: 17,
+  },
+};
+
+const DEFAULT_MAP_CENTER = {
+  lat: 37.51112,
+  lng: 127.095973,
+};
+
 export default function Home() {
   const viewport = useViewport();
   const [currentCategoryId, setCurrentCategoryId] = useState("practice");
   const [isShowMap, setIsShowMap] = useState(false);
   const [data, setData] = useState(undefined);
-  const [geolocation, setGeolocation] = useState<any>();
-
+  const [geolocation, setGeolocation] = useState<any>(DEFAULT_MAP_SPEC);
+  const [center, setCenter] = useState<any>();
+  const [address, setAddress] = useState<any>();
   const getGridColumns = useCallback(() => {
     return viewport === ViewportEnum.MOBILE
       ? 1
@@ -29,43 +44,47 @@ export default function Home() {
   }, [viewport]);
 
   useEffect(() => {
+    const succ = (p) => {
+      const lat = p.coords.latitude;
+      const lng = p.coords.longitude;
+
+      setCenter({
+        lat,
+        lng,
+      });
+    };
+    const fail = () => {
+      setGeolocation(DEFAULT_MAP_CENTER);
+    };
+
     if (navigator.geolocation) {
-      function showPosition(position) {
-        var lat = position.coords.latitude;
-        var lng = position.coords.longitude;
-
-        setGeolocation(() => {
-          return {
-            lat: lat,
-            lng: lng,
-          };
-        });
-
-        // Google Maps Geocoding API를 호출합니다.
-        var geocodingAPI =
-          "https://maps.googleapis.com/maps/api/geocode/json?latlng=" +
-          lat +
-          "," +
-          lng +
-          "&key=AIzaSyA7xnRZgDTOCAUgqpgmfGpwq7xTMUFww1I";
-
-        fetch(geocodingAPI)
-          .then((response) => response.json())
-          .then((data) => {
-            console.log("data", data);
-            var address = data.results[0].formatted_address;
-            console.log(address); // 이곳에서 주소를 파싱하여 간략한 형태로 변환할 수 있습니다.
-          })
-          .catch((error) => console.log(error));
-      }
-
-      console.log(
-        navigator.geolocation.getCurrentPosition(showPosition, () => {
-          console.log("failed");
-        })
-      );
+      navigator.geolocation.getCurrentPosition(succ, fail);
+    } else {
+      fail();
     }
+  }, []);
 
+  useEffect(() => {
+    if (center) {
+      const { lat, lng } = center;
+      var geocodingAPI =
+        "https://maps.googleapis.com/maps/api/geocode/json?latlng=" +
+        lat +
+        "," +
+        lng +
+        "&key=AIzaSyA7xnRZgDTOCAUgqpgmfGpwq7xTMUFww1I";
+
+      fetch(geocodingAPI)
+        .then((response) => response.json())
+        .then((data) => {
+          var address = data.results[0].formatted_address;
+          setAddress(address);
+        })
+        .catch((error) => console.log(error));
+    }
+  }, [center]);
+
+  useEffect(() => {
     const fetched = () => {
       setData([...resources.room.loadFiltered(currentCategoryId)]);
     };
@@ -116,21 +135,36 @@ export default function Home() {
               width={16}
               height={16}
             />
-            <div>
-              <Text size={TextSizeEnum.LG} weight={TextWeightEnum.MEDIUM}>
-                Public
-              </Text>
-            </div>
+            <Text size={TextSizeEnum.LG} weight={TextWeightEnum.MEDIUM}>
+              Public
+            </Text>
           </div>
-          <PlainButton
-            value="Show map"
-            fnClick={() => {
-              setIsShowMap((p) => !p);
-            }}
-          />
+          <div style={{ display: "flex", gap: 12, alignItems: "center" }}>
+            <Text size={TextSizeEnum.SM} weight={TextWeightEnum.THIN}>
+              {address}
+            </Text>
+            <PlainButton
+              value="Show map"
+              fnClick={() => {
+                setIsShowMap((p) => !p);
+              }}
+            />
+          </div>
         </div>
         <div className={classNames("map-wrapper", isShowMap ? "visible" : "")}>
-          {geolocation && <SpotMap center={geolocation} spots={SPOTS} />}
+          {center && (
+            <SpotMap
+              spec={DEFAULT_MAP_SPEC}
+              center={center}
+              spots={SPOTS}
+              onChange={(lat, lng) => {
+                setCenter({
+                  lat,
+                  lng,
+                });
+              }}
+            />
+          )}
         </div>
         <div className="contents">
           <Grid columns={getGridColumns()}>
