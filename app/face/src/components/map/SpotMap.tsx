@@ -61,7 +61,9 @@ const SpotMap = ({ center, spots }: ISpotMapProps) => {
       mapId: "5fb94fb03365ceb1",
       disableDefaultUI: true, // 이 줄을 추가하여 기본 UI를 비활성화합니다.
       gestureHandling:
-        viewport == ViewportEnum.MOBILE ? "greedy" : "cooperative",
+        viewport == (ViewportEnum.MOBILE || ViewportEnum.TABLET)
+          ? "greedy"
+          : "cooperative",
     });
     const { AdvancedMarkerElement } = (await google.maps.importLibrary(
       "marker"

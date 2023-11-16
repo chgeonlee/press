@@ -34,7 +34,6 @@ export default function useViewport() {
         setViewport(ViewportEnum.WIDE);
       }
 
-      console.log("ww", w);
       return;
     }
 
