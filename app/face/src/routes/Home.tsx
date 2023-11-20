@@ -93,8 +93,8 @@ export default function Home() {
               width={16}
               height={16}
             />
-            <Text size={TextSizeEnum.LG} weight={TextWeightEnum.MEDIUM}>
-              Public
+            <Text size={TextSizeEnum.MD} weight={TextWeightEnum.MEDIUM}>
+              PUBLIC
             </Text>
           </div>
           <div style={{ display: "flex", gap: 12, alignItems: "center" }}>
