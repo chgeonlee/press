@@ -13,11 +13,13 @@ const MainMap = ({ spots }) => {
     if (containerRef.current == null) return;
 
     const handler = () => {
+      console.log("--->", press.map.getElement());
       containerRef.current.appendChild(press.map.getElement());
       setMounted(true);
     };
 
     window.addEventListener("re" + GlobalEventEnum.MOUNTED_MAP, handler);
+    console.log("called");
     press.map.create();
 
     return () => {
@@ -27,6 +29,7 @@ const MainMap = ({ spots }) => {
 
   useEffect(() => {
     if (mounted == false) return;
+    console.log("--->", press.map.getElement());
 
     press.map.drawMarker(spots);
   }, [mounted, spots]);

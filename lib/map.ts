@@ -50,18 +50,21 @@ class MapContainer {
   private _markerElement;
   private _markerList = [];
   private _script = null;
+  private _mounted = false;
 
   constructor() {}
 
-  create() {
-    if (this._script == null) {
+  create = () => {
+    if (this._mounted == false) {
       this._script = document.createElement("script");
       const apiKey = "AIzaSyA7xnRZgDTOCAUgqpgmfGpwq7xTMUFww1I";
       this._script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&callback=mapInit&libraries=marker&v=beta`;
       this._script.defer = true;
       document.body.appendChild(this._script);
+    } else {
+      this.init();
     }
-  }
+  };
 
   markers = async (data) => {
     if (this._mapInstance == null) return;
@@ -114,7 +117,7 @@ class MapContainer {
 
   init = async () => {
     if (this._mapInstance) {
-      return;
+      return Wire.instance.fire(GlobalEventEnum.MOUNTED_MAP, undefined);
     }
 
     const isMobile = (() => {
@@ -153,6 +156,8 @@ class MapContainer {
     }
 
     Wire.instance.fire(GlobalEventEnum.MOUNTED_MAP, undefined);
+    console.log("this.mounted");
+    this._mounted = true;
   };
 
   getElement() {

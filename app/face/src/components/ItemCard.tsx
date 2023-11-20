@@ -48,17 +48,19 @@ const ItemCard = ({ item }: IItemCardProps) => {
           />
         </div>
         <div className="title">
-          <Text weight={TextWeightEnum.BOLD}>{item.title}</Text>
+          <Text weight={TextWeightEnum.BOLD} size={TextSizeEnum.LG}>
+            {item.title}
+          </Text>
           <Text>{item.rating}</Text>
         </div>
         <div className="description">
           <Text size={TextSizeEnum.SM}>{item.description}</Text>
         </div>
-        <div className="price">
+        {/* <div className="price">
           <Text weight={TextWeightEnum.BOLD}>
             {press.util.convertToKRW(item.price)}
           </Text>
-        </div>
+        </div> */}
       </div>
     </Link>
   );
