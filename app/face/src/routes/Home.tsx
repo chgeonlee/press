@@ -89,8 +89,8 @@ export default function Home() {
         <div className="home">
           <div className="contents">
             <Grid columns={getGridColumns()}>
-              {data.map((data, index) => {
-                return <ItemCard key={index} item={data.provisonal.meta} />;
+              {data.map((item, index) => {
+                return <ItemCard key={index} item={item.provisonal.meta} />;
               })}
             </Grid>
           </div>
