@@ -48,17 +48,22 @@ a {
   flex-direction: row;
   background-size: cover; /* 이미지가 컨테이너를 꽉 채우도록 설정 */
   overflow: scroll;
-  gap: 12px;
-  padding: 12px 0;
+  gap: 24px;
+  padding: 36px 0;
   flex-wrap: nowrap; /* 한 줄에 모든 항목을 표시하도록 설정 */
   //margin: 24px 0px;
 }
 
-.sticker-container > .image-wrapper {
-  flex: 0 0 84px; /* flex-grow, flex-shrink를 0으로 설정하고, flex-basis를 72px로 설정 */
+.sticker-container.mobile {
+  gap: 12px;
+  padding: 12px 0;
+}
 
-  width: 84px;
-  height: 84px;
+.sticker-container > .image-wrapper {
+  flex: 0 0 72px; /* flex-grow, flex-shrink를 0으로 설정하고, flex-basis를 72px로 설정 */
+
+  width: 72px;
+  height: 72px;
   border-radius: 50%;
   overflow: hidden;
   position: relative;
@@ -87,8 +92,8 @@ a {
 .sticker-container > .image-wrapper > img {
   top: 2px;
   left: 2px;
-  width: 80px;
-  height: 80px;
+  width: 68px;
+  height: 68px;
   border-radius: 50%;
   position: relative;
   z-index: 1; /* 이미지를 그라디언트 위에 표시 */

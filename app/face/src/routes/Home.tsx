@@ -13,9 +13,14 @@ import { PlainButton } from "../components/button/PlainButton";
 import Text, { TextSizeEnum, TextWeightEnum } from "../components/Text";
 import _ from "lodash";
 import MainMap from "../components/map/MainMap";
+import { useOutsideClick } from "../hooks/useOutsideClick";
 
 export default function Home() {
   const viewport = useViewport();
+  const mapRef = useRef();
+  useOutsideClick(mapRef, () => {
+    setIsShowMap(false);
+  });
 
   const [currentCategoryId, setCurrentCategoryId] = useState("practice");
   const [isShowMap, setIsShowMap] = useState(false);
@@ -67,7 +72,12 @@ export default function Home() {
   return (
     <>
       <Section>
-        <div className="sticker-container">
+        <div
+          className={classNames(
+            "sticker-container",
+            viewport === ViewportEnum.MOBILE ? "mobile" : ""
+          )}
+        >
           {SPOTS.slice(0, 124).map((item) => {
             return (
               <div className="image-wrapper">
@@ -86,12 +96,13 @@ export default function Home() {
           </div>
         </div>
       </Section>
-
       <div
         className={classNames("map-wrapper", isShowMap ? "visible" : "")}
         style={{}}
       >
-        <MainMap spots={SPOTS} />
+        <div ref={mapRef}>
+          <MainMap spots={SPOTS} />
+        </div>
       </div>
       <div
         style={{
@@ -100,7 +111,7 @@ export default function Home() {
           width: "100%",
           display: "flex",
           justifyContent: "center",
-          zIndex: 10,
+          zIndex: 2000,
         }}
       >
         {isShowMap ? (
