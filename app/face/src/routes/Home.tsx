@@ -66,8 +66,8 @@ export default function Home() {
   }
 
   return (
-    <Section>
-      <div className="home">
+    <>
+      <Section>
         <div className="sticker-container">
           {SPOTS.slice(0, 124).map((item) => {
             return (
@@ -77,55 +77,57 @@ export default function Home() {
             );
           })}
         </div>
-        <div className={classNames("filter-bar")}>
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: 8,
-              padding: "0 4px",
-            }}
-          >
-            <img
-              src={
-                "https://www.reshot.com/preview-assets/icons/FSLV43QKM9/map-pointer-FSLV43QKM9.svg"
-              }
-              width={16}
-              height={16}
-            />
-            <Text size={TextSizeEnum.MD} weight={TextWeightEnum.MEDIUM}>
-              PUBLIC
-            </Text>
-          </div>
-          <div style={{ display: "flex", gap: 12, alignItems: "center" }}>
-            <Text size={TextSizeEnum.SM} weight={TextWeightEnum.THIN}>
-              {address}
-            </Text>
-            <PlainButton
-              value="Show map"
-              fnClick={() => {
-                setIsShowMap((p) => !p);
+        <div className="home">
+          <div className={classNames("filter-bar")}>
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: 8,
+                padding: "0 4px",
               }}
-            />
+            >
+              <img
+                src={
+                  "https://www.reshot.com/preview-assets/icons/FSLV43QKM9/map-pointer-FSLV43QKM9.svg"
+                }
+                width={16}
+                height={16}
+              />
+              <Text size={TextSizeEnum.MD} weight={TextWeightEnum.MEDIUM}>
+                PUBLIC
+              </Text>
+            </div>
+            <div style={{ display: "flex", gap: 12, alignItems: "center" }}>
+              <Text size={TextSizeEnum.SM} weight={TextWeightEnum.THIN}>
+                {address}
+              </Text>
+              <PlainButton
+                value="Show map"
+                fnClick={() => {
+                  setIsShowMap((p) => !p);
+                }}
+              />
+            </div>
+          </div>
+
+          <div
+            className={classNames("map-wrapper", isShowMap ? "visible" : "")}
+            ref={containerRef}
+            style={{ width: "100%", height: "100%" }}
+          >
+            <MainMap spots={SPOTS} />
+          </div>
+
+          <div className="contents">
+            <Grid columns={getGridColumns()}>
+              {data.map((data, index) => {
+                return <ItemCard key={index} item={data.provisonal.meta} />;
+              })}
+            </Grid>
           </div>
         </div>
-
-        <div
-          className={classNames("map-wrapper", isShowMap ? "visible" : "")}
-          ref={containerRef}
-          style={{ width: "100%", height: "100%" }}
-        >
-          <MainMap spots={SPOTS} />
-        </div>
-
-        <div className="contents">
-          <Grid columns={getGridColumns()}>
-            {data.map((data, index) => {
-              return <ItemCard key={index} item={data.provisonal.meta} />;
-            })}
-          </Grid>
-        </div>
-      </div>
-    </Section>
+      </Section>
+    </>
   );
 }
