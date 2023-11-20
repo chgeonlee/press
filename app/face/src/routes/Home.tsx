@@ -18,9 +18,15 @@ import { useOutsideClick } from "../hooks/useOutsideClick";
 export default function Home() {
   const viewport = useViewport();
   const mapRef = useRef();
-  useOutsideClick(mapRef, () => {
-    setIsShowMap(false);
-  });
+  const expRef = useRef();
+
+  useOutsideClick(
+    mapRef,
+    () => {
+      setIsShowMap(false);
+    },
+    [expRef]
+  );
 
   const [currentCategoryId, setCurrentCategoryId] = useState("practice");
   const [isShowMap, setIsShowMap] = useState(false);
@@ -111,8 +117,9 @@ export default function Home() {
           width: "100%",
           display: "flex",
           justifyContent: "center",
-          zIndex: 2000,
+          zIndex: 5000,
         }}
+        ref={expRef}
       >
         {isShowMap ? (
           <PlainButton
@@ -136,7 +143,8 @@ export default function Home() {
                 <Text size={TextSizeEnum.MD}>아이템보기</Text>
               </div>
             }
-            fnClick={() => {
+            fnClick={(e: MouseEvent) => {
+              console.log("ooo");
               setIsShowMap((p) => !p);
             }}
           />

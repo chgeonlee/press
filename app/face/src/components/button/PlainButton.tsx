@@ -6,7 +6,7 @@ import press from "@/lib";
 export interface IPlainButtonProps {
   value: string | React.ReactNode;
   rounded: Boolean;
-  fnClick: () => void;
+  fnClick: (e) => void;
 }
 const useStyles = createUseStyles((theme: any) => ({
   container: press.style
