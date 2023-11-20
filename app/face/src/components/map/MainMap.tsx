@@ -18,6 +18,7 @@ const MainMap = ({ spots }) => {
     };
 
     window.addEventListener("re" + GlobalEventEnum.MOUNTED_MAP, handler);
+    press.map.create();
 
     return () => {
       window.removeEventListener("re" + GlobalEventEnum.MOUNTED_MAP, handler);

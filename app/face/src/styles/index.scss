@@ -49,13 +49,13 @@ a {
   background-size: cover; /* 이미지가 컨테이너를 꽉 채우도록 설정 */
   overflow: scroll;
   gap: 12px;
-  margin-top: 12px;
   padding: 12px;
   flex-wrap: nowrap; /* 한 줄에 모든 항목을 표시하도록 설정 */
   border-radius: 12px;
+  margin: 8px 0 24px;
   box-shadow:
-    rgba(155, 158, 173, 0.2) 0px -12px 30px 5px inset,
-    rgba(155, 158, 173, 0.2) 0px 4px 12px 1px;
+    rgba(255, 158, 255, 0.2) 0px 0px 12px 1px inset,
+    rgba(200, 158, 255, 0.2) 0px 0px 12px 1px;
 }
 
 .sticker-container > .image-wrapper {

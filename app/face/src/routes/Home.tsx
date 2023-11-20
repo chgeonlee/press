@@ -7,7 +7,7 @@ import { GlobalEventEnum } from "../constants";
 import resources from "../resources";
 import { SPOTS } from "../fixture";
 import Section from "../components/Section";
-import SpotMap from "../components/map/SpotMap";
+
 import classNames from "classnames";
 import { PlainButton } from "../components/button/PlainButton";
 import Text, { TextSizeEnum, TextWeightEnum } from "../components/Text";
@@ -16,7 +16,6 @@ import MainMap from "../components/map/MainMap";
 
 export default function Home() {
   const viewport = useViewport();
-  const containerRef = useRef(null);
 
   const [currentCategoryId, setCurrentCategoryId] = useState("practice");
   const [isShowMap, setIsShowMap] = useState(false);
@@ -78,47 +77,6 @@ export default function Home() {
           })}
         </div>
         <div className="home">
-          <div className={classNames("filter-bar")}>
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: 8,
-                padding: "0 4px",
-              }}
-            >
-              <img
-                src={
-                  "https://www.reshot.com/preview-assets/icons/FSLV43QKM9/map-pointer-FSLV43QKM9.svg"
-                }
-                width={16}
-                height={16}
-              />
-              <Text size={TextSizeEnum.MD} weight={TextWeightEnum.MEDIUM}>
-                PUBLIC
-              </Text>
-            </div>
-            <div style={{ display: "flex", gap: 12, alignItems: "center" }}>
-              <Text size={TextSizeEnum.SM} weight={TextWeightEnum.THIN}>
-                {address}
-              </Text>
-              <PlainButton
-                value="Show map"
-                fnClick={() => {
-                  setIsShowMap((p) => !p);
-                }}
-              />
-            </div>
-          </div>
-
-          <div
-            className={classNames("map-wrapper", isShowMap ? "visible" : "")}
-            ref={containerRef}
-            style={{ width: "100%", height: "100%" }}
-          >
-            <MainMap spots={SPOTS} />
-          </div>
-
           <div className="contents">
             <Grid columns={getGridColumns()}>
               {data.map((data, index) => {
@@ -128,6 +86,77 @@ export default function Home() {
           </div>
         </div>
       </Section>
+
+      <div
+        className={classNames("map-wrapper", isShowMap ? "visible" : "")}
+        style={{}}
+      >
+        <MainMap spots={SPOTS} />
+      </div>
+      <div
+        style={{
+          position: "fixed",
+          bottom: 24,
+          width: "100%",
+          display: "flex",
+          justifyContent: "center",
+          zIndex: 10,
+        }}
+      >
+        {isShowMap ? (
+          <PlainButton
+            value={
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  gap: 12,
+                  alignItems: "center",
+                }}
+              >
+                <img
+                  src={
+                    "https://www.reshot.com/preview-assets/icons/FSLV43QKM9/map-pointer-FSLV43QKM9.svg"
+                  }
+                  width={16}
+                  height={16}
+                />
+
+                <Text size={TextSizeEnum.MD}>아이템보기</Text>
+              </div>
+            }
+            fnClick={() => {
+              setIsShowMap((p) => !p);
+            }}
+          />
+        ) : (
+          <PlainButton
+            value={
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  gap: 12,
+                  alignItems: "center",
+                }}
+              >
+                <img
+                  src={
+                    "https://www.reshot.com/preview-assets/icons/FSLV43QKM9/map-pointer-FSLV43QKM9.svg"
+                  }
+                  width={16}
+                  height={16}
+                />
+
+                <Text size={TextSizeEnum.MD}>지도보기</Text>
+              </div>
+            }
+            fnClick={() => {
+              setIsShowMap((p) => !p);
+            }}
+          />
+        )}
+      </div>
     </>
   );
 }

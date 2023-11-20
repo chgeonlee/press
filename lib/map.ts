@@ -49,13 +49,18 @@ class MapContainer {
   private _mapElement;
   private _markerElement;
   private _markerList = [];
+  private _script = null;
 
-  constructor() {
-    const script = document.createElement("script");
-    const apiKey = "AIzaSyA7xnRZgDTOCAUgqpgmfGpwq7xTMUFww1I";
-    script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&callback=mapInit&libraries=marker&v=beta`;
-    script.defer = true;
-    document.body.appendChild(script);
+  constructor() {}
+
+  create() {
+    if (this._script == null) {
+      this._script = document.createElement("script");
+      const apiKey = "AIzaSyA7xnRZgDTOCAUgqpgmfGpwq7xTMUFww1I";
+      this._script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&callback=mapInit&libraries=marker&v=beta`;
+      this._script.defer = true;
+      document.body.appendChild(this._script);
+    }
   }
 
   markers = async (data) => {
@@ -180,6 +185,10 @@ class MapComponent {
 
   public drawMarker(data) {
     return this.container.markers(data);
+  }
+
+  public create() {
+    this.container.create();
   }
 }
 

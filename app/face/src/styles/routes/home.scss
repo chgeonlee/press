@@ -4,27 +4,28 @@
   height: 100%;
 
   > .filter-bar {
-    padding: 12px 0;
     display: flex;
     align-items: center;
     justify-content: space-between;
     width: 100%;
   }
-  .map-wrapper {
-    overflow: hidden;
-    max-height: 0; /* 초기 높이 설정 */
-    transition: max-height 0.5s ease-out; /* 애니메이션 효과 적용 */
-    position: relative;
-  }
-
-  .map-wrapper.visible {
-    margin: 0px 0 24px;
-    max-height: 440px; /* 최대 높이 설정, 실제 필요한 높이로 조절 */
-    /* transition 속성은 상위 클래스에서 이미 정의되어 있으므로 재정의할 필요 없음 */
-    height: 100%;
-  }
 
   > .contents {
     position: relative;
   }
+}
+
+.map-wrapper {
+  overflow: hidden;
+  transition: max-height 0.5s ease-out; /* 애니메이션 효과 적용 */
+  position: fixed;
+  left: 0px;
+  bottom: -100%;
+  z-index: 1;
+  width: 100%;
+  height: calc(100% - 36px);
+}
+
+.map-wrapper.visible {
+  bottom: 0px;
 }

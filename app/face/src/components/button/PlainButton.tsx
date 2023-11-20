@@ -4,7 +4,7 @@ import Text, { TextSizeEnum } from "../Text";
 import press from "@/lib";
 
 export interface IPlainButtonProps {
-  value: string;
+  value: string | React.ReactNode;
   rounded: Boolean;
   fnClick: () => void;
 }
@@ -12,11 +12,11 @@ const useStyles = createUseStyles((theme: any) => ({
   container: press.style
     .relative()
     .back(theme.background)
-    .pad(10, 24, 10, 24)
+    .pad(12, 12, 12, 12)
     .color(theme.text)
-    .edge(1, theme.border)
     .addCircle(24)
-    .pack("flex", undefined, "center"),
+    .pack("flex", undefined, "center")
+    .add({ border: "1px solid #e9e9e9" }),
 }));
 
 export const PlainButton = ({ value, fnClick }: IPlainButtonProps) => {
@@ -24,7 +24,7 @@ export const PlainButton = ({ value, fnClick }: IPlainButtonProps) => {
 
   return (
     <div className={classNames("button", classes.container)} onClick={fnClick}>
-      <Text size={TextSizeEnum.SM}>{value}</Text>
+      {value}
     </div>
   );
 };
