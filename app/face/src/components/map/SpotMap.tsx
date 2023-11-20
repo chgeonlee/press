@@ -7,6 +7,7 @@ import useViewport, { ViewportEnum } from "../../hooks/useViewport";
 declare global {
   interface Window {
     initSpotMap: () => void;
+    mapInstance: any;
   }
 }
 
@@ -60,17 +61,23 @@ const SpotMap = ({ spec, center, spots, onChange }: ISpotMapProps) => {
   ];
 
   window.initSpotMap = async () => {
+    if (mapRef.current == null) {
+      mapRef.current = new google.maps.Map(componentRef.current, {
+        ...spec.zoomInfo,
+        center: {
+          lat: 0,
+          lng: 0,
+        },
+        mapId: "5fb94fb03365ceb1",
+        disableDefaultUI: true, // 이 줄을 추가하여 기본 UI를 비활성화합니다.
+        gestureHandling:
+          viewport == (ViewportEnum.MOBILE || ViewportEnum.TABLET)
+            ? "greedy"
+            : "cooperative",
+      });
+    }
     // map 의 min, max는 map의 type에 따라 달라질수 있다.
-    mapRef.current = new google.maps.Map(componentRef.current, {
-      ...spec.zoomInfo,
-      center: center,
-      mapId: "5fb94fb03365ceb1",
-      disableDefaultUI: true, // 이 줄을 추가하여 기본 UI를 비활성화합니다.
-      gestureHandling:
-        viewport == (ViewportEnum.MOBILE || ViewportEnum.TABLET)
-          ? "greedy"
-          : "cooperative",
-    });
+
     const { AdvancedMarkerElement } = (await google.maps.importLibrary(
       "marker"
     )) as google.maps.MarkerLibrary;
@@ -104,7 +111,6 @@ const SpotMap = ({ spec, center, spots, onChange }: ISpotMapProps) => {
       map: mapRef.current,
     });
   };
-
   useEffect(() => {
     const resize = () => {
       const ratio = viewport == ViewportEnum.MOBILE ? 1 : 0.5;

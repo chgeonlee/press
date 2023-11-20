@@ -1,7 +1,8 @@
+import press from "@/lib";
 import Grid from "../components/Grid";
 import useViewport, { ViewportEnum } from "../hooks/useViewport";
 import ItemCard from "../components/ItemCard";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { GlobalEventEnum } from "../constants";
 import resources from "../resources";
 import { SPOTS } from "../fixture";
@@ -11,36 +12,16 @@ import classNames from "classnames";
 import { PlainButton } from "../components/button/PlainButton";
 import Text, { TextSizeEnum, TextWeightEnum } from "../components/Text";
 import _ from "lodash";
-
-const DEFAULT_MAP_SPEC = {
-  fixture: true,
-  zoomInfo: {
-    zoom: 10,
-    minZoom: 4,
-    maxZoom: 12,
-  },
-};
-
-const DEFAULT_MAP_CENTER = {
-  lat: 37.51112,
-  lng: 127.095973,
-};
+import MainMap from "../components/map/MainMap";
 
 export default function Home() {
   const viewport = useViewport();
+  const containerRef = useRef(null);
+
   const [currentCategoryId, setCurrentCategoryId] = useState("practice");
   const [isShowMap, setIsShowMap] = useState(false);
   const [data, setData] = useState(undefined);
-  const [geolocation, setGeolocation] = useState<any>(DEFAULT_MAP_SPEC);
-  const [center, setCenter] = useState<any>();
   const [address, setAddress] = useState<any>();
-  function isMobile() {
-    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
-      navigator.userAgent
-    );
-  }
-
-  const mob = isMobile();
 
   const getGridColumns = useCallback(() => {
     return viewport === ViewportEnum.MOBILE
@@ -51,53 +32,6 @@ export default function Home() {
       ? 4
       : 6;
   }, [viewport]);
-
-  useEffect(() => {
-    const succ = (p) => {
-      const lat = p.coords.latitude;
-      const lng = p.coords.longitude;
-
-      setCenter({
-        lat,
-        lng,
-      });
-    };
-    const fail = () => {
-      setGeolocation(DEFAULT_MAP_CENTER);
-      setCenter(DEFAULT_MAP_CENTER);
-    };
-
-    if (mob == true) {
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(succ, fail);
-      } else {
-        fail();
-      }
-    } else {
-      fail();
-    }
-  }, []);
-
-  useEffect(() => {
-    if (center && mob) {
-      console.log("--->");
-      const { lat, lng } = center;
-      var geocodingAPI =
-        "https://maps.googleapis.com/maps/api/geocode/json?latlng=" +
-        lat +
-        "," +
-        lng +
-        "&key=AIzaSyA7xnRZgDTOCAUgqpgmfGpwq7xTMUFww1I";
-
-      fetch(geocodingAPI)
-        .then((response) => response.json())
-        .then((data) => {
-          var address = data.results[0].formatted_address;
-          setAddress(address);
-        })
-        .catch((error) => console.log(error));
-    }
-  }, [center]);
 
   useEffect(() => {
     const fetched = () => {
@@ -127,13 +61,22 @@ export default function Home() {
     };
   }, [currentCategoryId]);
 
-  if (data == undefined || geolocation == null) {
+  if (data == undefined) {
     return <div> loading ... </div>;
   }
 
   return (
     <Section>
       <div className="home">
+        <div className="sticker-container">
+          {SPOTS.slice(0, 124).map((item) => {
+            return (
+              <div className="image-wrapper">
+                <img src={item.imgSrc} />
+              </div>
+            );
+          })}
+        </div>
         <div className={classNames("filter-bar")}>
           <div
             style={{
@@ -166,21 +109,15 @@ export default function Home() {
             />
           </div>
         </div>
-        <div className={classNames("map-wrapper", isShowMap ? "visible" : "")}>
-          {center && (
-            <SpotMap
-              spec={DEFAULT_MAP_SPEC}
-              center={center}
-              spots={SPOTS}
-              onChange={_.debounce((lat, lng) => {
-                setCenter({
-                  lat,
-                  lng,
-                });
-              }, 300)}
-            />
-          )}
+
+        <div
+          className={classNames("map-wrapper", isShowMap ? "visible" : "")}
+          ref={containerRef}
+          style={{ width: "100%", height: "100%" }}
+        >
+          <MainMap spots={SPOTS} />
         </div>
+
         <div className="contents">
           <Grid columns={getGridColumns()}>
             {data.map((data, index) => {
