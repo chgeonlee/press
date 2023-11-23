@@ -8,19 +8,24 @@ import { GlobalEventEnum } from "../../constants";
 const MainMap = ({ spots }) => {
   const containerRef = useRef(null);
   const [mounted, setMounted] = useState(false);
+  const [load, setLoad] = useState(false);
 
   useEffect(() => {
     if (containerRef.current == null) return;
 
     const handler = () => {
-      console.log("--->", press.map.getElement());
       containerRef.current.appendChild(press.map.getElement());
       setMounted(true);
     };
 
     window.addEventListener("re" + GlobalEventEnum.MOUNTED_MAP, handler);
-    console.log("called");
-    press.map.create();
+
+    setLoad((p) => {
+      if (p == false) {
+        press.map.create();
+      }
+      return true;
+    });
 
     return () => {
       window.removeEventListener("re" + GlobalEventEnum.MOUNTED_MAP, handler);
@@ -29,9 +34,7 @@ const MainMap = ({ spots }) => {
 
   useEffect(() => {
     if (mounted == false) return;
-    console.log("--->", press.map.getElement());
-
-    press.map.drawMarker(spots);
+    if (spots) press.map.drawMarker(spots);
   }, [mounted, spots]);
 
   return (

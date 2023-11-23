@@ -31,14 +31,14 @@ class MapFactory {
     const el = document.createElement("div");
     el.className = "spot-map-marker-wrapper";
     el.innerHTML = `
-    <div class='bubble-wrapper'>
-      <div class='bubble'>
-        ${message}
+      <div class='bubble-wrapper'>
+        <div class='bubble'>
+          ${message}
+        </div>
       </div>
-    </div>
-    <div class='spot-map-marker'>
-      <img src="${imgSrc}" alt="map picture" />
-    </div>
+      <div class='spot-map-marker'>
+        <img src="${imgSrc}" alt="map picture" />
+      </div>
     `;
     return el;
   };
@@ -51,16 +51,21 @@ class MapContainer {
   private _markerList = [];
   private _script = null;
   private _mounted = false;
+  private _loading = false;
 
   constructor() {}
 
   create = () => {
+    if (this._loading) return;
+    this._loading = true;
     if (this._mounted == false) {
       this._script = document.createElement("script");
       const apiKey = "AIzaSyA7xnRZgDTOCAUgqpgmfGpwq7xTMUFww1I";
       this._script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&callback=mapInit&libraries=marker&v=beta`;
       this._script.defer = true;
       document.body.appendChild(this._script);
+      console.log("created");
+      this._loading = false;
     } else {
       this.init();
     }
@@ -82,7 +87,9 @@ class MapContainer {
       this._markerElement = AdvancedMarkerElement;
     }
 
-    const nset = data.map((item, ndx) => {
+    const nset = [];
+
+    for (const [ndx, item] of data.entries()) {
       const component = new this._markerElement({
         map: this._mapInstance,
         position: item.geolocation,
@@ -106,8 +113,8 @@ class MapContainer {
         listener: handler,
       });
 
-      return component;
-    });
+      nset.push(component);
+    }
 
     new MarkerClusterer({
       markers: nset,
@@ -156,7 +163,6 @@ class MapContainer {
     }
 
     Wire.instance.fire(GlobalEventEnum.MOUNTED_MAP, undefined);
-    console.log("this.mounted");
     this._mounted = true;
   };
 

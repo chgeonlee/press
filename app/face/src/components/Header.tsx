@@ -18,10 +18,6 @@ const Header = () => {
           <SelfLogo />
           {viewport != ViewportEnum.MOBILE && <MapSearchInput />}
           <div className="setting">
-            {/* <IconButton
-              icon={<FaMoon size={18} />}
-              fnClick={() => setDarkModeStatus(!darkModeStatus)}
-            /> */}
             <div>
               <IconButton
                 icon={<SelfMenu size={FIXED_ICON_SIZE} />}

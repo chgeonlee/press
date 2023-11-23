@@ -8,7 +8,7 @@ export enum TextAlignEnum {
 
 export enum TextSizeEnum {
   XL = "20px",
-  LG = "16px",
+  LG = "14px",
   MD = "12px",
   SM = "11px",
 }

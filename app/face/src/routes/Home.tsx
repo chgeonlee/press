@@ -2,7 +2,13 @@ import press from "@/lib";
 import Grid from "../components/Grid";
 import useViewport, { ViewportEnum } from "../hooks/useViewport";
 import ItemCard from "../components/ItemCard";
-import { useCallback, useEffect, useRef, useState } from "react";
+import {
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from "react";
 import { GlobalEventEnum } from "../constants";
 import resources from "../resources";
 import { SPOTS } from "../fixture";
@@ -10,7 +16,7 @@ import Section from "../components/Section";
 
 import classNames from "classnames";
 import { PlainButton } from "../components/button/PlainButton";
-import Text, { TextSizeEnum, TextWeightEnum } from "../components/Text";
+import Text, { TextSizeEnum } from "../components/Text";
 import _ from "lodash";
 import MainMap from "../components/map/MainMap";
 import { useOutsideClick } from "../hooks/useOutsideClick";
@@ -19,6 +25,7 @@ export default function Home() {
   const viewport = useViewport();
   const mapRef = useRef();
   const expRef = useRef();
+  const homeRef = useRef();
 
   useOutsideClick(
     mapRef,
@@ -31,7 +38,6 @@ export default function Home() {
   const [currentCategoryId, setCurrentCategoryId] = useState("practice");
   const [isShowMap, setIsShowMap] = useState(false);
   const [data, setData] = useState(undefined);
-  const [address, setAddress] = useState<any>();
 
   const getGridColumns = useCallback(() => {
     return viewport === ViewportEnum.MOBILE
@@ -71,31 +77,27 @@ export default function Home() {
     };
   }, [currentCategoryId]);
 
-  if (data == undefined) {
-    return <div> loading ... </div>;
-  }
-
   return (
     <>
       <Section>
-        <div
+        {/* <div
           className={classNames(
             "sticker-container",
             viewport === ViewportEnum.MOBILE ? "mobile" : ""
           )}
         >
-          {SPOTS.slice(0, 124).map((item) => {
+          {SPOTS.slice(0, 12).map((item) => {
             return (
-              <div className="image-wrapper">
+              <div className="image-wrapper" style={{ width: nw, height: nw }}>
                 <img src={item.imgSrc} />
               </div>
             );
           })}
-        </div>
-        <div className="home">
+        </div> */}
+        <div className="home" ref={homeRef}>
           <div className="contents">
             <Grid columns={getGridColumns()}>
-              {data.map((item, index) => {
+              {data?.map((item, index) => {
                 return <ItemCard key={index} item={item.provisonal.meta} />;
               })}
             </Grid>
@@ -128,7 +130,7 @@ export default function Home() {
                 style={{
                   display: "flex",
                   justifyContent: "center",
-                  gap: 12,
+                  gap: 1,
                   alignItems: "center",
                 }}
               >
@@ -144,7 +146,6 @@ export default function Home() {
               </div>
             }
             fnClick={(e: MouseEvent) => {
-              console.log("ooo");
               setIsShowMap((p) => !p);
             }}
           />
