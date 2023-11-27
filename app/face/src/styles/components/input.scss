@@ -2,8 +2,8 @@
   flex: 1 0 auto;
   height: 100%;
   border: 1px solid #c9c9c9;
-  padding: 4px 12px;
-  border-radius: 36px;
+  padding: 4px 8px;
+  //border-radius: 36px;
   display: grid;
   grid-template-columns: 24px 1fr;
   gap: 8px;
@@ -11,8 +11,8 @@
   position: relative;
   max-width: 470px;
   box-shadow:
-    rgba(155, 158, 173, 0.2) 0px 1px 7px 0px,
-    rgba(155, 158, 173, 0.2) 0px -1px 7px 0px;
+    rgba(155, 158, 173, 0.2) 0px 1px 12px 0px,
+    rgba(155, 158, 173, 0.2) 0px -1px 12px 0px;
 
   > .icon {
     display: flex;

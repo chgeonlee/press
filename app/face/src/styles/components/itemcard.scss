@@ -7,9 +7,7 @@
 
   .pics {
     img {
-      border-radius: 12px;
-      box-shadow: rgba(155, 158, 173, 0.4) 0px 7px 7px 0px;
-
+      box-shadow: rgba(155, 158, 173, 0.7) 0px 12px 13px 0px;
       width: 100%;
       height: 100%;
       object-fit: cover;
@@ -20,6 +18,7 @@
     justify-content: space-between;
     margin: 8px 0 4px;
     align-items: center;
+    padding: 0 8px;
   }
 
   .description {
@@ -27,5 +26,10 @@
     -webkit-line-clamp: 1; /* 두 줄로 제한 */
     -webkit-box-orient: vertical;
     overflow: hidden;
+    padding: 0 8px;
+  }
+
+  .price {
+    padding: 0 8px;
   }
 }

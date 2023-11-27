@@ -168,7 +168,7 @@ export default function Home() {
                   height={16}
                 />
 
-                <Text size={TextSizeEnum.MD}>지도보기</Text>
+                <Text size={TextSizeEnum.MD}>지도 보기</Text>
               </div>
             }
             fnClick={() => {

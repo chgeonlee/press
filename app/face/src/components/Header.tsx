@@ -37,7 +37,7 @@ const Header = () => {
           </div>
         </div>
         {viewport == ViewportEnum.MOBILE && (
-          <div style={{ marginBottom: 12, width: "100%" }}>
+          <div className="header-input">
             <MapSearchInput />
           </div>
         )}
