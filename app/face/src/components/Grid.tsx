@@ -25,6 +25,6 @@ const Grid = ({ columns, children, rowGap, columnGap }: IGridProps) => {
 export default Grid;
 
 Grid.defaultProps = {
-  rowGap: 60,
+  rowGap: 36,
   columnGap: 24,
 };
