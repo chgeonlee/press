@@ -11,13 +11,15 @@
   "author": "",
   "license": "ISC",
   "workspaces": [
-    "app/face"
+    "app/face",
+    "app/cast"
   ],
   "dependencies": {
     "@googlemaps/markerclusterer": "^2.5.1",
     "@react-google-maps/api": "^2.19.2",
     "axios": "^1.5.0",
     "chance": "^1.1.11",
+    "dotenv": "^16.3.1",
     "lodash": "^4.17.21",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

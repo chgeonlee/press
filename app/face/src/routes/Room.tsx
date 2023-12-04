@@ -1,12 +1,12 @@
 import Masonry from "../components/Masonry";
 import resources from "../resources";
 import { useEffect, useRef, useState } from "react";
-import { GlobalEventEnum } from "../constants";
 import Text, { TextSizeEnum, TextWeightEnum } from "../components/Text";
 import Section from "../components/Section";
 import useViewport, { ViewportEnum } from "../hooks/useViewport";
 import classNames from "classnames";
 import { useParams } from "react-router-dom";
+import { GlobalEventEnum } from "../../../../lib/constants";
 
 export default function Room() {
   const { id } = useParams();

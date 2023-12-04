@@ -3,10 +3,11 @@ import press from "@/lib";
 import Circle from "./icon/self/circle";
 import _ from "lodash";
 import resources from "../resources";
-import { DirectionEnum, GlobalEventEnum } from "../constants";
+import { DirectionEnum } from "../constants";
 import useElementRect from "../hooks/useElementRect";
 import { createUseStyles } from "react-jss";
 import classNames from "classnames";
+import { GlobalEventEnum } from "../../../../lib/constants";
 
 const useStyles = createUseStyles((theme: any) => ({
   container: press.style
@@ -27,7 +28,7 @@ const useDomain = (data: [number, number][], unit): [number, number] => {
       Math.min(...data.map((item) => item[0])),
       Math.max(...data.map((item) => item[0])) + unit,
     ],
-    [data],
+    [data]
   );
 };
 
@@ -80,7 +81,7 @@ const FilterChart = ({
     if (domainRef == null || domainRef.current == null) return 0;
     return _.minBy(
       _.range(domainRef.current[0], domainRef.current[1] + unit, unit),
-      (v) => Math.abs(containerRef.current.scaleX(v) - target),
+      (v) => Math.abs(containerRef.current.scaleX(v) - target)
     );
   };
 
@@ -105,14 +106,14 @@ const FilterChart = ({
 
     window.addEventListener(
       "re" + GlobalEventEnum.FETCHED_ROOMS_CATEGORY,
-      draw,
+      draw
     );
     draw();
 
     return () => {
       window.removeEventListener(
         "re" + GlobalEventEnum.FETCHED_ROOMS_CATEGORY,
-        draw,
+        draw
       );
     };
   }, [d, rect]);
@@ -121,7 +122,7 @@ const FilterChart = ({
     return generateBarSpec(
       _.filter(data, (d) => d[0] < leftFilterIndex),
       press.palette.grey,
-      barWidth,
+      barWidth
     );
   }, [leftFilterIndex, data]);
 
@@ -129,7 +130,7 @@ const FilterChart = ({
     return generateBarSpec(
       _.filter(data, (d) => d[0] >= rightFilterIndex),
       press.palette.grey,
-      barWidth,
+      barWidth
     );
   }, [rightFilterIndex, data]);
 
@@ -137,7 +138,7 @@ const FilterChart = ({
     return generateBarSpec(
       _.filter(data, (d) => d[0] >= leftFilterIndex && d[0] < rightFilterIndex),
       press.palette.steel,
-      barWidth,
+      barWidth
     );
   }, [leftFilterIndex, rightFilterIndex, data]);
 
@@ -161,7 +162,7 @@ const FilterChart = ({
     (direction: DirectionEnum) => (e: React.MouseEvent) => {
       const handleMouseMove = (e: any) => {
         const v = findClosestValue(
-          Math.min(Math.max(e.clientX - rect.left), rect.width),
+          Math.min(Math.max(e.clientX - rect.left), rect.width)
         );
 
         if (direction === DirectionEnum.LEFT && v < rightFilterIndex) {

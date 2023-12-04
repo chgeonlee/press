@@ -6,9 +6,22 @@ import "./styles/index.scss";
 import { ThemeContextProvider } from "./contexts/themeContext";
 import { ThemeProvider } from "./providers/themeProvider";
 import { AuthContextProvider } from "./contexts/authContext";
+import { AWSCognitoProvider } from "./contexts/cognitoContext";
+
+// const children = (
+//   <AuthContextProvider>
+//     <ThemeContextProvider>
+//       <React.StrictMode>
+//         <ThemeProvider>
+//           <RouterProvider router={router} />
+//         </ThemeProvider>
+//       </React.StrictMode>
+//     </ThemeContextProvider>
+//   </AuthContextProvider>
+// );
 
 const children = (
-  <AuthContextProvider>
+  <AWSCognitoProvider>
     <ThemeContextProvider>
       <React.StrictMode>
         <ThemeProvider>
@@ -16,7 +29,7 @@ const children = (
         </ThemeProvider>
       </React.StrictMode>
     </ThemeContextProvider>
-  </AuthContextProvider>
+  </AWSCognitoProvider>
 );
 
 const container = document.getElementById("root");

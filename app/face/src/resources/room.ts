@@ -1,7 +1,7 @@
 import press from "@/lib";
-import { GlobalEventEnum } from "../constants";
-import { getRoomDetail, getRooms } from "../api";
+//import { getRoomDetail, getRooms } from "../api";
 import _ from "lodash";
+import { GlobalEventEnum } from "../../../../lib/constants";
 
 // Interface defining the structure of Room data.
 export interface IRoomData {
@@ -88,20 +88,20 @@ class Room {
     if (refresh == false && this.detail != undefined) {
       return press.wire.fire(
         GlobalEventEnum.FETCHED_ROOM_DETAIL,
-        this.original.id,
+        this.original.id
       );
     } else {
-      getRoomDetail(this.original.id)
-        .then((data) => {
-          this.detail = data.detail;
-          press.wire.fire(
-            GlobalEventEnum.FETCHED_ROOM_DETAIL,
-            this.original.id,
-          );
-        })
-        .catch((error) => {
-          console.error("Error fetching rooms", error);
-        });
+      // getRoomDetail(this.original.id)
+      //   .then((data) => {
+      //     this.detail = data.detail;
+      //     press.wire.fire(
+      //       GlobalEventEnum.FETCHED_ROOM_DETAIL,
+      //       this.original.id
+      //     );
+      //   })
+      //   .catch((error) => {
+      //     console.error("Error fetching rooms", error);
+      //   });
     }
   }
 }
@@ -140,7 +140,7 @@ class Container {
   private add = (
     category: string,
     room: IRoomData,
-    partial: boolean = false,
+    partial: boolean = false
   ): Room => {
     let inst: Room;
 
@@ -204,7 +204,7 @@ class Container {
 
   getRangedRoomsByCategory(category: string) {
     return [...this.kmap.get(category).rooms].filter((room) =>
-      this.cutting(room),
+      this.cutting(room)
     );
   }
 
@@ -217,14 +217,15 @@ class Container {
     ) {
       return press.wire.fire(GlobalEventEnum.FETCHED_ROOMS_CATEGORY, category);
     } else {
-      getRooms(category)
-        .then((data) => {
-          data.rooms.forEach((room) => this.add(category, room));
-          press.wire.fire(GlobalEventEnum.FETCHED_ROOMS_CATEGORY, category);
-        })
-        .catch((error) => {
-          console.error("Error fetching rooms", error);
-        });
+      press.wire.fire(GlobalEventEnum.FETCHED_ROOMS_CATEGORY, category);
+      // getRooms(category)
+      //   .then((data) => {
+      //     data.rooms.forEach((room) => this.add(category, room));
+      //     press.wire.fire(GlobalEventEnum.FETCHED_ROOMS_CATEGORY, category);
+      //   })
+      //   .catch((error) => {
+      //     console.error("Error fetching rooms", error);
+      //   });
     }
   };
 
@@ -232,13 +233,13 @@ class Container {
     if (refresh == false && this.pool.has(roomId)) {
       return press.wire.fire(GlobalEventEnum.FETCHED_ROOM_BY_ID, roomId);
     } else {
-      getRoomDetail(roomId).then((data) => {
-        data.room.categories.forEach((category) => {
-          const room = this.add(category, data.room, true);
-          room.detail = data.detail;
-          return press.wire.fire(GlobalEventEnum.FETCHED_ROOM_BY_ID, roomId);
-        });
-      });
+      // getRoomDetail(roomId).then((data) => {
+      //   data.room.categories.forEach((category) => {
+      //     const room = this.add(category, data.room, true);
+      //     room.detail = data.detail;
+      //     return press.wire.fire(GlobalEventEnum.FETCHED_ROOM_BY_ID, roomId);
+      //   });
+      // });
     }
   };
 }

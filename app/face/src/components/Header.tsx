@@ -5,11 +5,16 @@ import { IconButton } from "./button/IconButton";
 import Section from "./Section";
 import MapSearchInput from "./search/MapSearchInput";
 import useViewport, { ViewportEnum } from "../hooks/useViewport";
+import useUser from "../hooks/useUser";
+import AWSCognitoContext from "../contexts/cognitoContext";
+import { useContext } from "react";
 
-const FIXED_ICON_SIZE = 24;
+const FIXED_ICON_SIZE = 40;
 
 const Header = () => {
   const viewport = useViewport();
+  const { isLoggedIn, userPics } = useUser();
+  const { login, logout } = useContext(AWSCognitoContext);
 
   return (
     <div className="header-wrapper">
@@ -18,21 +23,33 @@ const Header = () => {
           <SelfLogo />
           {viewport != ViewportEnum.MOBILE && <MapSearchInput />}
           <div className="setting">
+            {/* <IconButton
+              icon={<SelfMenu size={FIXED_ICON_SIZE} />}
+              fnClick={() => {
+                confirm("미구현");
+              }}
+            /> */}
             <div>
-              <IconButton
-                icon={<SelfMenu size={FIXED_ICON_SIZE} />}
-                fnClick={() => {
-                  confirm("미구현");
-                }}
-              />
-            </div>
-            <div>
-              <IconButton
-                icon={<FaUserCircle size={FIXED_ICON_SIZE} />}
-                fnClick={() => {
-                  confirm("미구현");
-                }}
-              />
+              {isLoggedIn == false ? (
+                <IconButton
+                  icon={<FaUserCircle size={32} />}
+                  fnClick={() => {
+                    login("chgeon.lee@gmail.com", "cndrjs85@@A");
+                  }}
+                />
+              ) : (
+                <div onClick={() => logout()}>
+                  <img
+                    src={userPics}
+                    style={{
+                      width: 38,
+                      height: 38,
+                      borderRadius: 24,
+                      objectFit: "cover",
+                    }}
+                  />
+                </div>
+              )}
             </div>
           </div>
         </div>

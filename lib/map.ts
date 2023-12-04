@@ -1,4 +1,4 @@
-import { GlobalEventEnum } from "../app/face/src/constants";
+import { GlobalEventEnum } from "./constants";
 import Wire from "./wire";
 import { MarkerClusterer } from "@googlemaps/markerclusterer";
 

@@ -3,7 +3,7 @@ import press from "@/lib";
 import { MarkerClusterer } from "@googlemaps/markerclusterer";
 import MapFactory from "./factory";
 import { SPOTS } from "../../fixture";
-import { GlobalEventEnum } from "../../constants";
+import { GlobalEventEnum } from "../../../../../lib/constants";
 
 const MainMap = ({ spots }) => {
   const containerRef = useRef(null);

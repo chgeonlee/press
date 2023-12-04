@@ -4,12 +4,12 @@ import useViewport, { ViewportEnum } from "../hooks/useViewport";
 import ItemCard from "../components/ItemCard";
 import {
   useCallback,
+  useContext,
   useEffect,
   useLayoutEffect,
   useRef,
   useState,
 } from "react";
-import { GlobalEventEnum } from "../constants";
 import resources from "../resources";
 import { SPOTS } from "../fixture";
 import Section from "../components/Section";
@@ -20,12 +20,18 @@ import Text, { TextSizeEnum } from "../components/Text";
 import _ from "lodash";
 import MainMap from "../components/map/MainMap";
 import { useOutsideClick } from "../hooks/useOutsideClick";
+import { GlobalEventEnum } from "../../../../lib/constants";
+import AWSCognitoContext from "../contexts/cognitoContext";
+import useUser from "../hooks/useUser";
 
 export default function Home() {
   const viewport = useViewport();
   const mapRef = useRef();
   const expRef = useRef();
   const homeRef = useRef();
+  const { login, logout } = useContext(AWSCognitoContext);
+
+  const { userData: user, isLoggedIn, userName } = useUser();
 
   useOutsideClick(
     mapRef,
@@ -46,7 +52,7 @@ export default function Home() {
       ? 3
       : viewport === ViewportEnum.LAPTOP
       ? 4
-      : 6;
+      : 4;
   }, [viewport]);
 
   useEffect(() => {

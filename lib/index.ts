@@ -45,5 +45,5 @@ class Press {
     return new Chart();
   }
 }
-
-export default Press.instance;
+const press = Press.instance;
+export default press;
