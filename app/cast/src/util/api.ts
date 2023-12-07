@@ -11,7 +11,8 @@ export default class API {
 
   private get config() {
     return {
-      baseURL: "https://api.enple.co.kr",
+      //baseURL: "https://api.enple.co.kr",
+      baseURL: "http://localhost:9000",
       //withCredentials: true,
     };
   }

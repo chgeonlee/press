@@ -1,30 +1,27 @@
-import { useContext, useEffect } from "react";
+import { useCallback, useContext, useEffect, useMemo } from "react";
 import useUser from "../hooks/useUser";
-import { getNormal, getTest } from "../api";
+import { apiGetPosts, getNormal, getTest } from "../api";
 import AuthContext from "../contexts/AuthContenxt";
+import SignupForm from "../components/Signup";
+import SigninForm from "../components/Signin";
 
 const Home = () => {
   const userData = useUser();
   const { handleLogin, handleLogout } = useContext(AuthContext);
+  const record = useCallback(async () => {
+    await apiGetPosts();
+  }, []);
+
+  useEffect(() => {
+    record();
+  }, []);
 
   return (
     <div>
       {JSON.stringify(userData)}
       <div>
-        <button
-          onClick={() => {
-            handleLogin("cgcg7108@naver.com", "cndrjs85!!");
-          }}
-        >
-          login cgcg7108@naver.com
-        </button>
-        <button
-          onClick={() => {
-            handleLogin("chgeon.lee@gmail.com", "cndrjs85!!");
-          }}
-        >
-          login chgeon.lee@gmail.com
-        </button>
+        <SignupForm />
+        <SigninForm />
         <button
           onClick={() => {
             handleLogout();

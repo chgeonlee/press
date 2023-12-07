@@ -2,12 +2,22 @@ import press from "@/lib";
 import util from "../util";
 import { createContext, useEffect, useRef } from "react";
 import { LocalStorageKeys } from "../util/storage";
-import { CognitoUserSession } from "amazon-cognito-identity-js";
+import {
+  CognitoUserAttribute,
+  CognitoUserSession,
+} from "amazon-cognito-identity-js";
 import { GlobalEventEnum } from "../../../../lib/constants";
 import { TimerKeys } from "../util/timer";
+import { postEnrollUser } from "../api";
 
-const PER_MINUTE = 60000;
 const AuthContext = createContext(null);
+
+/**
+ *
+ * AuthContextProvider component handles authentication-related logic using [AWS Cognito].
+ * It provides login, logout, and token refresh functionalities.
+ *
+ */
 
 export const AuthContextProvider = ({ children }) => {
   const userData = UserDataContainer.instance;
@@ -24,6 +34,7 @@ export const AuthContextProvider = ({ children }) => {
         }
       }
     };
+
     init();
 
     return () => {
@@ -33,11 +44,78 @@ export const AuthContextProvider = ({ children }) => {
 
   // 1분전 토큰 갱신 로직
   const registerRefreshTokenTimer = async () => {
+    const PER_MINUTE = 60000;
+
     util.timer.enroll(
       TimerKeys.TIMER_TOKEN_UPDATE,
       handleRefreshIdToken,
-      userData.idTokenExp * 1000 - 4 * PER_MINUTE - new Date().getTime()
+      userData.idTokenExp * 1000 - 1 * PER_MINUTE - new Date().getTime()
     );
+  };
+
+  const handleSignup = async (email, password) => {
+    try {
+      const attributeList = [
+        new CognitoUserAttribute({
+          Name: "email",
+          Value: email,
+        }),
+      ];
+
+      util.aws.cognito.userPool.signUp(
+        email,
+        password,
+        attributeList,
+        null,
+        (err, result) => {
+          if (err) {
+            switch (err.name) {
+              case "UsernameExistsException":
+                alert("email 중복입니다.");
+                break;
+              case "InvalidPasswordException":
+                alert("비밀번호를 확인바랍니다.");
+                break;
+              default:
+                break;
+            }
+          } else {
+            console.log("result", result);
+            alert("회원가입이 완료되었습니다. 이메일을 확인해주세요.");
+          }
+        }
+      );
+    } catch (error) {
+      console.error("회원가입 중 에러 발생:", error);
+      alert("회원가입에 실패했습니다.");
+    }
+  };
+
+  const handleConfirmSingup = async (email, code) => {
+    try {
+      util.aws.cognito
+        .user(email)
+        .confirmRegistration(code, true, async (err, res) => {
+          if (err) {
+            console.error(err);
+            alert("코드 확인에 실패했습니다. 다시 시도해주세요.");
+          } else {
+            //
+
+            if (res == "SUCCESS") {
+              alert("코드 확인이 성공했습니다. 로그인해주세요.");
+              const resp = await postEnrollUser(email);
+              console.log("response", resp);
+              // backend 에 user 등록
+            }
+
+            // 로그인 페이지로 이동 또는 기타 작업 수행
+          }
+        });
+    } catch (error) {
+      console.error("회원가입 중 에러 발생:", error);
+      alert("회원가입에 실패했습니다.");
+    }
   };
 
   // IdToken 갱신 로직
@@ -69,6 +147,7 @@ export const AuthContextProvider = ({ children }) => {
 
       userData.idToken = refreshedToken;
       userData.idTokenExp = session.getIdToken().getExpiration();
+
       registerRefreshTokenTimer();
     } catch (error) {
       console.error("토큰 갱신 중 에러 발생:", error);
@@ -89,6 +168,12 @@ export const AuthContextProvider = ({ children }) => {
           registerRefreshTokenTimer();
         },
         onFailure: (e) => {
+          if (e.name == "UserNotConfirmedException") {
+            console.log(
+              "user가 아직 코드를 확인하지 않음. 코드 확인 페이지로 이동 및 이메일 발송해줌"
+            );
+          }
+
           alert("로그인에 실패했습니다.");
         },
       });
@@ -105,7 +190,9 @@ export const AuthContextProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ handleLogin, handleLogout }}>
+    <AuthContext.Provider
+      value={{ handleLogin, handleLogout, handleSignup, handleConfirmSingup }}
+    >
       {children}
     </AuthContext.Provider>
   );
