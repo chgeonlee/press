@@ -4,7 +4,7 @@ import AuthContext from "../contexts/AuthContenxt";
 const SigninForm = () => {
   const { handleLogin, handleLogout } = useContext(AuthContext);
   const [email, setEmail] = useState("chgeon.lee@gmail.com");
-  const [password, setPassword] = useState("cndrjs85!!");
+  const [password, setPassword] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
