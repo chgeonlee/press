@@ -34,7 +34,7 @@ const Header = () => {
                 <IconButton
                   icon={<FaUserCircle size={32} />}
                   fnClick={() => {
-                    login("chgeon.lee@gmail.com", "cndrjs85@@A");
+                    login("chgeon.lee@gmail.com", "");
                   }}
                 />
               ) : (

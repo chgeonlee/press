@@ -156,27 +156,30 @@ export const AuthContextProvider = ({ children }) => {
 
   // 로그인 처리
   const handleLogin = async (email, password) => {
-    util.aws.cognito
-      .user(email)
-      .authenticateUser(util.aws.cognito.auth(email, password), {
-        onSuccess: (s) => {
-          const n = s.getIdToken();
-          userData.idToken = n.getJwtToken();
-          userData.idTokenExp = s.getIdToken().getExpiration();
-          userData.attribute = n.payload;
+    return new Promise(async (resolve, reject) => {
+      util.aws.cognito
+        .user(email)
+        .authenticateUser(util.aws.cognito.auth(email, password), {
+          onSuccess: (s) => {
+            const n = s.getIdToken();
+            userData.idToken = n.getJwtToken();
+            userData.idTokenExp = s.getIdToken().getExpiration();
+            userData.attribute = n.payload;
 
-          registerRefreshTokenTimer();
-        },
-        onFailure: (e) => {
-          if (e.name == "UserNotConfirmedException") {
-            console.log(
-              "user가 아직 코드를 확인하지 않음. 코드 확인 페이지로 이동 및 이메일 발송해줌"
-            );
-          }
+            registerRefreshTokenTimer();
 
-          alert("로그인에 실패했습니다.");
-        },
-      });
+            resolve(true);
+          },
+          onFailure: (e) => {
+            if (e.name == "UserNotConfirmedException") {
+              console.log(
+                "user가 아직 코드를 확인하지 않음. 코드 확인 페이지로 이동 및 이메일 발송해줌"
+              );
+            }
+            resolve(false);
+          },
+        });
+    });
   };
 
   // 로그아웃 처리

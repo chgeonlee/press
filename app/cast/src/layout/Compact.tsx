@@ -2,15 +2,14 @@ import { Outlet } from "react-router-dom";
 import Header from "../components/Header";
 import "../styles/index.scss";
 
-const RootLayout = () => {
+const CompactLayout = () => {
   return (
-    <div className="root-layout">
+    <div className="compact-layout">
       <div className="section">
-        <Header />
         <Outlet />
       </div>
     </div>
   );
 };
 
-export default RootLayout;
+export default CompactLayout;
